@@ -333,6 +333,25 @@ resource "openstack_compute_instance_v2" "etcd_custom_volume_size" {
   }
 }
 
+resource "openstack_networking_port_v2" "k8s_master_no_floating_ip" {
+  name           = "${var.cluster_name}-k8s-master-nf-${count.index+1}"
+  count          = "${var.number_of_k8s_masters_no_floating_ip}"
+  admin_state_up = "true"
+
+  network_id      = "af56a0db-4348-438a-838d-eb131d501566"
+
+  security_group_ids = ["${openstack_networking_secgroup_v2.k8s_master.id}",
+    "${openstack_networking_secgroup_v2.k8s.id}",
+  ]
+
+  allowed_address_pairs {
+    ip_address = "10.233.0.0/18"
+  }
+  allowed_address_pairs {
+    ip_address = "10.233.64.0/18"
+  }
+}
+
 resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip" {
   name              = "${var.cluster_name}-k8s-master-nf-${count.index+1}"
   count             = "${var.master_root_volume_size_in_gb == 0 ? var.number_of_k8s_masters_no_floating_ip : 0}"
@@ -342,12 +361,8 @@ resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip" {
   key_pair          = "${openstack_compute_keypair_v2.k8s.name}"
 
   network {
-    name = "${var.network_name}"
+    port = "${element(openstack_networking_port_v2.k8s_master_no_floating_ip.*.id, count.index)}"
   }
-
-  security_groups = ["${openstack_networking_secgroup_v2.k8s_master.name}",
-    "${openstack_networking_secgroup_v2.k8s.name}",
-  ]
 
   metadata = {
     ssh_user         = "${var.ssh_user}"
@@ -506,6 +521,25 @@ resource "openstack_compute_instance_v2" "k8s_node_custom_volume_size" {
   }
 }
 
+resource "openstack_networking_port_v2" "k8s_node_no_floating_ip" {
+  name           = "${var.cluster_name}-k8s-node-nf-${count.index+1}"
+  count          = "${var.number_of_k8s_nodes_no_floating_ip}"
+  admin_state_up = "true"
+
+  network_id     = "af56a0db-4348-438a-838d-eb131d501566"
+
+  security_group_ids = ["${openstack_networking_secgroup_v2.k8s.id}",
+    "${openstack_networking_secgroup_v2.worker.id}",
+  ]
+
+  allowed_address_pairs {
+    ip_address = "10.233.0.0/18"
+  }
+  allowed_address_pairs {
+    ip_address = "10.233.64.0/18"
+  }
+}
+
 resource "openstack_compute_instance_v2" "k8s_node_no_floating_ip" {
   name              = "${var.cluster_name}-k8s-node-nf-${count.index+1}"
   count             = "${var.node_root_volume_size_in_gb == 0 ? var.number_of_k8s_nodes_no_floating_ip : 0}"
@@ -515,12 +549,8 @@ resource "openstack_compute_instance_v2" "k8s_node_no_floating_ip" {
   key_pair          = "${openstack_compute_keypair_v2.k8s.name}"
 
   network {
-    name = "${var.network_name}"
+    port = "${element(openstack_networking_port_v2.k8s_node_no_floating_ip.*.id, count.index)}"
   }
-
-  security_groups = ["${openstack_networking_secgroup_v2.k8s.name}",
-    "${openstack_networking_secgroup_v2.worker.name}",
-  ]
 
   metadata = {
     ssh_user         = "${var.ssh_user}"
