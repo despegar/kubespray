@@ -54,11 +54,17 @@ variable "flavor_gfs_node" {}
 
 variable "network_name" {}
 
+variable "provider_network_id" {}
+
 variable "flavor_bastion" {}
 
 variable "network_id" {
   default = ""
 }
+
+variable "kube_service_addresses" {}
+
+variable "kube_pods_subnet" {}
 
 variable "k8s_master_fips" {
   type = "list"
