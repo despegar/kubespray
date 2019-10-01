@@ -70,6 +70,9 @@ module "compute" {
   supplementary_node_groups                    = "${var.supplementary_node_groups}"
   worker_allowed_ports                         = "${var.worker_allowed_ports}"
   wait_for_floatingip                          = "${var.wait_for_floatingip}"
+  kube_pods_subnet                             = "${var.kube_pods_subnet}"
+  kube_service_addresses                       = "${var.kube_service_addresses}"
+  provider_network_id                          = "${var.provider_network_id}"
 
   network_id = "${module.network.router_id}"
 }
