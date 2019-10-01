@@ -123,6 +123,18 @@ variable "network_name" {
   default     = "internal"
 }
 
+variable "provider_network_id" {
+   default = ""
+}
+
+variable "kube_service_addresses" {
+   default = ""
+}
+
+variable "kube_pods_subnet" {
+   default = ""
+}
+
 variable "network_dns_domain" {
   description = "dns_domain for the internal network"
   type        = "string"
