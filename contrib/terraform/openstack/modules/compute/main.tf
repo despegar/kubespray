@@ -338,7 +338,7 @@ resource "openstack_networking_port_v2" "k8s_master_no_floating_ip" {
   count          = "${var.number_of_k8s_masters_no_floating_ip}"
   admin_state_up = "true"
 
-  network_id      = "${var.provider_network_id}"
+  network_id     = "${var.provider_network_id}"
 
   security_group_ids = ["${openstack_networking_secgroup_v2.k8s_master.id}",
     "${openstack_networking_secgroup_v2.k8s.id}",
@@ -533,10 +533,10 @@ resource "openstack_networking_port_v2" "k8s_node_no_floating_ip" {
   ]
 
   allowed_address_pairs {
-    ip_address = "10.233.0.0/18"
+    ip_address = "${var.kube_service_addresses}"
   }
   allowed_address_pairs {
-    ip_address = "10.233.64.0/18"
+    ip_address = "${var.kube_pods_subnet}"
   }
 }
 
