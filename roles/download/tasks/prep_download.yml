@@ -38,7 +38,7 @@
   delegate_to: localhost
   delegate_facts: no
   run_once: true
-  become: false
+  become: true
   tags:
     - localhost
 
