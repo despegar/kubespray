@@ -30,13 +30,13 @@ resource "openstack_networking_secgroup_rule_v2" "k8s_master" {
 
 resource "openstack_networking_secgroup_v2" "bastion" {
   name                 = "${var.cluster_name}-bastion"
-  count                = "${var.number_of_bastions != "" ? 1 : 0}"
+  count                = "${var.number_of_bastions}"
   description          = "${var.cluster_name} - Bastion Server"
   delete_default_rules = true
 }
 
 resource "openstack_networking_secgroup_rule_v2" "bastion" {
-  count             = "${var.number_of_bastions != "" ? length(var.bastion_allowed_remote_ips) : 0}"
+  count             = "${var.number_of_bastions != 0 ? length(var.bastion_allowed_remote_ips) : 0}"
   direction         = "ingress"
   ethertype         = "IPv4"
   protocol          = "tcp"
