@@ -340,8 +340,9 @@ resource "openstack_networking_port_v2" "k8s_calico_rr_no_floating_ip" {
   admin_state_up = "true"
 
   network_id     = "${var.provider_network_id}"
+  # neutron/policy.json get_port, create_port:fixed_ips:subnet_id y create_port:fixed_ips:ip_address a ""
   fixed_ip {
-     subnet_id  = "af56a0db-4348-438a-838d-eb131d501566"
+     subnet_id  = "d85e2b9e-f9e2-45e5-82d4-8990830cac49"
      ip_address = "10.184.42.241" # 10.184.42.240/29 
   }
 
