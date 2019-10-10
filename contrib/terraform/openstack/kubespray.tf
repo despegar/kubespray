@@ -56,6 +56,7 @@ module "compute" {
   flavor_k8s_node                              = "${var.flavor_k8s_node}"
   flavor_etcd                                  = "${var.flavor_etcd}"
   flavor_gfs_node                              = "${var.flavor_gfs_node}"
+  flavor_calico_rr                             = "${var.flavor_calico_rr}"
   network_name                                 = "${var.network_name}"
   flavor_bastion                               = "${var.flavor_bastion}"
   k8s_master_fips                              = "${module.ips.k8s_master_fips}"

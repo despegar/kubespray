@@ -333,6 +333,38 @@ resource "openstack_compute_instance_v2" "etcd_custom_volume_size" {
   }
 }
 
+# calico-rr
+resource "openstack_networking_port_v2" "k8s_calico_rr_no_floating_ip" {
+  name           = "${var.cluster_name}-k8s-calico-rr-nf-${count.index+1}"
+  count          = 1
+  admin_state_up = "true"
+
+  network_id     = "${var.provider_network_id}"
+  fixed_ip       = "10.184.42.241" # 10.184.42.240/29 
+
+  security_group_ids = ["${openstack_networking_secgroup_v2.k8s.id}" ]
+}
+
+resource "openstack_compute_instance_v2" "k8s_calico_rr_no_floating_ip" {
+  name              = "${var.cluster_name}-k8s-calico-rr-nf-${count.index+1}"
+  count             = 1
+  availability_zone = "${element(var.az_list, count.index)}"
+  image_name        = "${var.image}"
+  flavor_id         = "${var.flavor_calico_rr}"
+  key_pair          = "${openstack_compute_keypair_v2.k8s.name}"
+
+  network {
+    port = "${element(openstack_networking_port_v2.k8s_calico_rr_no_floating_ip.*.id, count.index)}"
+  }
+
+  metadata = {
+    ssh_user         = "${var.ssh_user}"
+    kubespray_groups = "calico-rr,k8s-cluster,no-floating,${var.supplementary_node_groups}"
+    depends_on       = "${var.network_id}"
+  }
+}
+
+# master
 resource "openstack_networking_port_v2" "k8s_master_no_floating_ip" {
   name           = "${var.cluster_name}-k8s-master-nf-${count.index+1}"
   count          = "${var.number_of_k8s_masters_no_floating_ip}"
@@ -458,6 +490,7 @@ resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip_no_etcd_cust
   }
 }
 
+# nodes / workers
 resource "openstack_compute_instance_v2" "k8s_node" {
   name              = "${var.cluster_name}-k8s-node-${count.index+1}"
   count             = "${var.node_root_volume_size_in_gb == 0 ? var.number_of_k8s_nodes : 0}"

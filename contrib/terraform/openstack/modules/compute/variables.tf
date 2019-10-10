@@ -50,6 +50,8 @@ variable "flavor_k8s_node" {}
 
 variable "flavor_etcd" {}
 
+variable "flavor_calico_rr" {}
+
 variable "flavor_gfs_node" {}
 
 variable "network_name" {}
