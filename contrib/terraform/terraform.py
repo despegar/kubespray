@@ -297,6 +297,10 @@ def openstack_host(resource, module_name):
 
     # Handling of floating IPs has changed: https://github.com/terraform-providers/terraform-provider-openstack/blob/master/CHANGELOG.md#010-june-21-2017
 
+    # calico rr
+    if 'metadata.cluster_id' in raw_attrs:
+        attrs['cluster_id'] = raw_attrs['metadata.cluster_id']
+
     # attrs specific to Ansible
     if 'metadata.ssh_user' in raw_attrs:
         attrs['ansible_ssh_user'] = raw_attrs['metadata.ssh_user']
