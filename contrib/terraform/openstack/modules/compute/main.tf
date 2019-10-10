@@ -365,7 +365,7 @@ resource "openstack_compute_instance_v2" "k8s_calico_rr_no_floating_ip" {
     ssh_user         = "${var.ssh_user}"
     kubespray_groups = "calico-rr,k8s-cluster,no-floating,${var.supplementary_node_groups}"
     depends_on       = "${var.network_id}"
-    cluster_id       = "10.184.42.0/24" # usamos la subnet para que todos los RR de un mismo rack formen un cluster
+    cluster_id       = "10.184.42.0" # usamos la subnet para que todos los RR de un mismo rack formen un cluster
   }
 }
 
