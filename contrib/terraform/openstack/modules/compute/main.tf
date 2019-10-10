@@ -340,7 +340,7 @@ resource "openstack_networking_port_v2" "k8s_calico_rr_no_floating_ip" {
   admin_state_up = "true"
 
   network_id     = "${var.provider_network_id}"
-  fixed_ip       = {
+  fixed_ip {
      subnet_id  = "af56a0db-4348-438a-838d-eb131d501566"
      ip_address = "10.184.42.241" # 10.184.42.240/29 
   }
