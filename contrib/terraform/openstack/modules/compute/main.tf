@@ -336,7 +336,7 @@ resource "openstack_compute_instance_v2" "etcd_custom_volume_size" {
 # calico-rr
 resource "openstack_networking_port_v2" "k8s_calico_rr_no_floating_ip" {
   name           = "${var.cluster_name}-k8s-calico-rr-nf-${count.index+1}"
-  count          = 1
+  count          = "${var.number_of_calico_rr_no_floating_ip}"
   admin_state_up = "true"
 
   network_id     = "${var.provider_network_id}"
@@ -351,7 +351,7 @@ resource "openstack_networking_port_v2" "k8s_calico_rr_no_floating_ip" {
 
 resource "openstack_compute_instance_v2" "k8s_calico_rr_no_floating_ip" {
   name              = "${var.cluster_name}-k8s-calico-rr-nf-${count.index+1}"
-  count             = 1
+  count             = "${var.number_of_calico_rr_no_floating_ip}"
   availability_zone = "${element(var.az_list, count.index)}"
   image_name        = "${var.image}"
   flavor_id         = "${var.flavor_calico_rr}"
