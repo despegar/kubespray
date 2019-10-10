@@ -365,6 +365,7 @@ resource "openstack_compute_instance_v2" "k8s_calico_rr_no_floating_ip" {
     ssh_user         = "${var.ssh_user}"
     kubespray_groups = "calico-rr,k8s-cluster,no-floating,${var.supplementary_node_groups}"
     depends_on       = "${var.network_id}"
+    cluster_id       = "{{ ansible_default_ipv4.network }}"
   }
 }
 
