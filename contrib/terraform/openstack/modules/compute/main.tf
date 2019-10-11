@@ -334,6 +334,21 @@ resource "openstack_compute_instance_v2" "etcd_custom_volume_size" {
 }
 
 # calico-rr
+resource "openstack_networking_secgroup_v2" "rr" {
+  name                 = "${var.cluster_name}-rr"
+  description          = "${var.cluster_name} - Calico Route Reflector"
+  delete_default_rules = true
+}
+
+resource "openstack_networking_secgroup_rule_v2" "rr" {
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "tcp"
+  port_range_min    = "179"
+  port_range_max    = "179"
+  security_group_id = "${openstack_networking_secgroup_v2.rr.id}"
+}
+
 resource "openstack_networking_port_v2" "k8s_calico_rr_no_floating_ip" {
   name           = "${var.cluster_name}-k8s-calico-rr-nf-${count.index+1}"
   count          = "${var.number_of_calico_rr_no_floating_ip}"
@@ -346,7 +361,8 @@ resource "openstack_networking_port_v2" "k8s_calico_rr_no_floating_ip" {
      ip_address = "10.184.42.241" # 10.184.42.240/29 
   }
 
-  security_group_ids = ["${openstack_networking_secgroup_v2.k8s.id}" ]
+  security_group_ids = ["${openstack_networking_secgroup_v2.k8s.id}",
+      "${openstack_networking_secgroup_v2.rr.id}" ]
 }
 
 resource "openstack_compute_instance_v2" "k8s_calico_rr_no_floating_ip" {
