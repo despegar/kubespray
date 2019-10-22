@@ -302,8 +302,8 @@ def openstack_host(resource, module_name):
         attrs['cluster_id'] = raw_attrs['metadata.cluster_id']
 
     # calico AS
-    if 'metadata.AS' in raw_attrs:
-        attrs['local_as'] = raw_attrs['metadata.AS']
+    if 'all_metadata.AS' in raw_attrs:
+        attrs['local_as'] = raw_attrs['all_metadata.AS']
 
     # attrs specific to Ansible
     if 'metadata.ssh_user' in raw_attrs:
