@@ -15,6 +15,4 @@
   changed_when: no
 - name: Disable swap
   command: /sbin/swapoff -a
-  when:
-    - not ansible_check_mode
-    - swapon.stdout
+  when: swapon.stdout

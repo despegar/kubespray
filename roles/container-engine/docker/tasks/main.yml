@@ -231,7 +231,6 @@
   fail:
     msg: "You need at least docker version >= 1.12 for resolvconf_mode=docker_dns"
   when: >
-        not ansible_check_mode and
         dns_mode != 'none' and
         resolvconf_mode == 'docker_dns' and
         installed_docker_version.stdout is version('1.12', '<')

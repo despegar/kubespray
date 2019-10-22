@@ -44,7 +44,6 @@
   set_fact:
     etcd_client_cert_serial: "{{ etcd_client_cert_serial_result.stdout.split('=')[1] }}"
   when:
-    - not ansible_check_mode
     - inventory_hostname in groups['k8s-cluster']|union(groups['calico-rr']|default([]))|unique|sort
   tags:
     - master
