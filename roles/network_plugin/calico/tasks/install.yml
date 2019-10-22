@@ -289,10 +289,8 @@
   retries: 4
   delay: "{{ retry_stagger | random + 3 }}"
   when:
-    - peer_with_router|default(false)
     - inventory_hostname in groups['k8s-cluster']
     - local_as is defined
-    - groups['calico-rr'] | default([]) | length == 0
 
 - name: Calico | Configure peering with router(s) at node scope
   shell: >
