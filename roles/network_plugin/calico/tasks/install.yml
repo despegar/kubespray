@@ -282,7 +282,8 @@
     },
     "spec": {
        "bgp": {
-         "asNumber": "{{ local_as }}"
+         "asNumber": "{{ local_as }}",
+         "ipv4Address": "{{ ansible_default_ipv4.address }}"
        },
        "orchRefs":[{"nodeName":"{{ inventory_hostname }}","orchestrator":"k8s"}]
     }}' | {{ bin_dir }}/calicoctl.sh apply -f -
