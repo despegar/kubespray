@@ -412,6 +412,8 @@ resource "openstack_networking_port_v2" "k8s_master_no_floating_ip" {
     "${openstack_networking_secgroup_v2.k8s.id}",
   ]
 
+  # https://github.com/kubernetes-sigs/kubespray/blob/master/docs/openstack.md
+  # sudo -i openstack port set 8127f6d5-86cf-421f-8328-378b07da11eb --allowed-address ip-address=10.233.0.0/18 --allowed-address ip-address=10.233.64.0/18
   allowed_address_pairs {
     ip_address = "${var.kube_service_addresses}"
   }
