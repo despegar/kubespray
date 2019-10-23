@@ -301,6 +301,9 @@ def openstack_host(resource, module_name):
     if 'metadata.cluster_id' in raw_attrs:
         attrs['cluster_id'] = raw_attrs['metadata.cluster_id']
 
+    if 'metadata.node_taint' in raw_attrs:
+        attrs['node_taint'] = raw_attrs['metadata.node_taint']
+
     # calico AS
     if 'all_metadata.AS' in raw_attrs:
         attrs['local_as'] = raw_attrs['all_metadata.AS']
