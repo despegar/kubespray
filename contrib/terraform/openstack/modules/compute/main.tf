@@ -89,7 +89,7 @@ resource "openstack_networking_secgroup_rule_v2" "k8s_icmp_i" {
 
 resource "openstack_networking_secgroup_rule_v2" "k8s_icmp_e" {
   count             = "${length(var.k8s_allowed_remote_ips)}"
-  direction         = "eggress"
+  direction         = "egress"
   ethertype         = "IPv4"
   protocol          = "icmp"
   remote_ip_prefix  = "${var.k8s_allowed_remote_ips[count.index]}"
