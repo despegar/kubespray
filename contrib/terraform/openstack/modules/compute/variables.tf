@@ -19,7 +19,7 @@ variable "number_of_k8s_nodes" {}
 variable "number_of_k8s_nodes_no_floating_ip" {}
 
 variable "number_of_bastions" {}
-
+# despegar fix
 variable "number_of_calico_rr_no_floating_ip" {}
 
 variable "number_of_gfs_nodes_no_floating_ip" {}
@@ -52,12 +52,14 @@ variable "flavor_k8s_node" {}
 
 variable "flavor_etcd" {}
 
+# despegar fix
 variable "flavor_calico_rr" {}
 
 variable "flavor_gfs_node" {}
 
 variable "network_name" {}
 
+# despegar fix
 variable "provider_network_id" {}
 
 variable "flavor_bastion" {}
@@ -66,8 +68,10 @@ variable "network_id" {
   default = ""
 }
 
+# despegar fix
 variable "kube_service_addresses" {}
 
+# despegar fix
 variable "kube_pods_subnet" {}
 
 variable "k8s_master_fips" {

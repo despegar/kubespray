@@ -283,15 +283,17 @@
     "spec": {
        "bgp": {
          "asNumber": "{{ local_as }}",
-         "ipv4Address": "{{ ansible_default_ipv4.address }}"
+         "ipv4Address": "{{ ansible_default_ipv4.address }}" # despegar fix
        },
        "orchRefs":[{"nodeName":"{{ inventory_hostname }}","orchestrator":"k8s"}]
     }}' | {{ bin_dir }}/calicoctl.sh apply -f -
   retries: 4
   delay: "{{ retry_stagger | random + 3 }}"
   when:
+    # despegar_fix for calico rr AS per rack - peer_with_router|default(false)
     - inventory_hostname in groups['k8s-cluster']
     - local_as is defined
+    # despegar_fix for calico rr AS per rack - groups['calico-rr'] | default([]) | length == 0
 
 - name: Calico | Configure peering with router(s) at node scope
   shell: >

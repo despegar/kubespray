@@ -40,6 +40,7 @@ variable "number_of_k8s_nodes_no_floating_ip" {
   default = 1
 }
 
+# despegar fix
 variable "number_of_calico_rr_no_floating_ip" {
   default = 1
 }
@@ -117,6 +118,7 @@ variable "flavor_etcd" {
   default     = 3
 }
 
+# despegar fix
 variable "flavor_calico_rr" {
   description = "Use 'openstack flavor list' command to see what your OpenStack instance uses for IDs"
   default     = 3
@@ -132,14 +134,17 @@ variable "network_name" {
   default     = "internal"
 }
 
+# despegar fix
 variable "provider_network_id" {
    default = ""
 }
 
+# despegar fix
 variable "kube_service_addresses" {
    default = ""
 }
 
+# despegar fix
 variable "kube_pods_subnet" {
    default = ""
 }

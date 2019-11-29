@@ -41,7 +41,7 @@ module "compute" {
   number_of_bastions                           = "${var.number_of_bastions}"
   number_of_k8s_nodes_no_floating_ip           = "${var.number_of_k8s_nodes_no_floating_ip}"
   number_of_gfs_nodes_no_floating_ip           = "${var.number_of_gfs_nodes_no_floating_ip}"
-  number_of_calico_rr_no_floating_ip           = "${var.number_of_calico_rr_no_floating_ip}"
+  number_of_calico_rr_no_floating_ip           = "${var.number_of_calico_rr_no_floating_ip}"  # despegar fix
   bastion_root_volume_size_in_gb               = "${var.bastion_root_volume_size_in_gb}"
   etcd_root_volume_size_in_gb                  = "${var.etcd_root_volume_size_in_gb}"
   master_root_volume_size_in_gb                = "${var.master_root_volume_size_in_gb}"
@@ -57,7 +57,7 @@ module "compute" {
   flavor_k8s_node                              = "${var.flavor_k8s_node}"
   flavor_etcd                                  = "${var.flavor_etcd}"
   flavor_gfs_node                              = "${var.flavor_gfs_node}"
-  flavor_calico_rr                             = "${var.flavor_calico_rr}"
+  flavor_calico_rr                             = "${var.flavor_calico_rr}"          # despegar fix
   network_name                                 = "${var.network_name}"
   flavor_bastion                               = "${var.flavor_bastion}"
   k8s_master_fips                              = "${module.ips.k8s_master_fips}"
@@ -72,9 +72,9 @@ module "compute" {
   supplementary_node_groups                    = "${var.supplementary_node_groups}"
   worker_allowed_ports                         = "${var.worker_allowed_ports}"
   wait_for_floatingip                          = "${var.wait_for_floatingip}"
-  kube_pods_subnet                             = "${var.kube_pods_subnet}"
-  kube_service_addresses                       = "${var.kube_service_addresses}"
-  provider_network_id                          = "${var.provider_network_id}"
+  kube_pods_subnet                             = "${var.kube_pods_subnet}"         # despegar fix
+  kube_service_addresses                       = "${var.kube_service_addresses}"   # despegar fix
+  provider_network_id                          = "${var.provider_network_id}"      # despegar fix
 
   network_id = "${module.network.router_id}"
 }

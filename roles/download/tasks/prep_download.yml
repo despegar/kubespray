@@ -38,6 +38,7 @@
   delegate_to: localhost
   delegate_facts: no
   run_once: true
+  # despegar fix
   become: true
   tags:
     - localhost
