@@ -10,6 +10,10 @@ variable "subnets" {
   type        = list(string)
   default     = ["10.184.42.0", "10.184.46.0"]
 }
+variable "reflector_hosts" {
+  type        = list(string)
+  default     = ["team-e42-host05", "team-46-host06"]
+}
 
 resource "openstack_networking_secgroup_v2" "rr" {
   name                 = "${var.cluster_name}-rr"
@@ -48,7 +52,7 @@ resource "openstack_networking_port_v2" "k8s_calico_rr_no_floating_ip" {
 resource "openstack_compute_instance_v2" "k8s_calico_rr_no_floating_ip" {
   name              = "${var.cluster_name}-k8s-calico-rr-nf-${count.index+1}"
   count             = length(var.subnet_ids)
-  availability_zone = "${element(var.az_list, count.index)}"
+  availability_zone = "nova:${var.reflector_hosts[count.index]}"
   image_name        = "${var.image}"
   flavor_id         = "${var.flavor_calico_rr}"
   key_pair          = "${openstack_compute_keypair_v2.k8s.name}"
