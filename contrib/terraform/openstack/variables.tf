@@ -221,3 +221,13 @@ variable "worker_allowed_ports" {
     },
   ]
 }
+
+variable "calico_rr_subnets" {
+  type        = "list"
+  default     = []
+}
+
+variable "calico_rr_ips" {
+  type        = "list"
+  default     = []
+}
