@@ -113,12 +113,6 @@ variable "flavor_etcd" {
   default     = 3
 }
 
-# despegar fix
-variable "flavor_calico_rr" {
-  description = "Use 'openstack flavor list' command to see what your OpenStack instance uses for IDs"
-  default     = 3
-}
-
 variable "flavor_gfs_node" {
   description = "Use 'openstack flavor list' command to see what your OpenStack instance uses for IDs"
   default     = 3

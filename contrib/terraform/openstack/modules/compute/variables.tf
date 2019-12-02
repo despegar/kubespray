@@ -50,9 +50,6 @@ variable "flavor_k8s_node" {}
 
 variable "flavor_etcd" {}
 
-# despegar fix
-variable "flavor_calico_rr" {}
-
 variable "flavor_gfs_node" {}
 
 variable "network_name" {}
@@ -115,5 +112,13 @@ variable "supplementary_node_groups" {
 }
 
 variable "worker_allowed_ports" {
+  type = "list"
+}
+
+variable "calico_rr_subnets" {
+  type = "list"
+}
+
+variable "calico_rr_ips" {
   type = "list"
 }
