@@ -40,11 +40,6 @@ variable "number_of_k8s_nodes_no_floating_ip" {
   default = 1
 }
 
-# despegar fix
-variable "number_of_calico_rr_no_floating_ip" {
-  default = 1
-}
-
 variable "number_of_gfs_nodes_no_floating_ip" {
   default = 0
 }

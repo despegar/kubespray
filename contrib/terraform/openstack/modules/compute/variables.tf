@@ -19,8 +19,6 @@ variable "number_of_k8s_nodes" {}
 variable "number_of_k8s_nodes_no_floating_ip" {}
 
 variable "number_of_bastions" {}
-# despegar fix
-variable "number_of_calico_rr_no_floating_ip" {}
 
 variable "number_of_gfs_nodes_no_floating_ip" {}
 
