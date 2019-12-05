@@ -2,6 +2,8 @@
 - name: Hosts | populate inventory into hosts file
   blockinfile:
     path: /etc/hosts
+    # despegar fix
+    # evitar que poner nombre del host propio en /etc/hosts cambie el "hostname -f" / fqdn
     block: |-
       {% for item in (groups['k8s-cluster'] + groups['etcd'] + groups['calico-rr']|default([]))|unique -%}
       {% if 'access_ip' in hostvars[item] or 'ip' in hostvars[item] or fallback_ips[item] != "skip" -%}
