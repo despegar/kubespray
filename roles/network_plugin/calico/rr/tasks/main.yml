@@ -24,3 +24,46 @@
   command: >-
     {{ bin_dir }}/calicoctl.sh label node {{ inventory_hostname }}
     'i-am-a-route-reflector=true' --overwrite
+
+# despegar fix
+- name: Calico | Configure RR nodes ToR peering
+  shell: >
+    echo '{
+    "apiVersion": "projectcalico.org/v3",
+    "kind": "Node",
+    "metadata": {
+       "name": "{{ inventory_hostname }}",
+       "labels": {
+          "i-am-a-route-reflector": "true"
+       },
+    },
+    "spec": {
+       "bgp": {
+          "asNumber": "{{ local_as }}",
+          "ipv4Address": "{{ ansible_default_ipv4.address }}",
+          "routeReflectorClusterID": "{{ item.cluster_id }}"
+       },
+       "orchRefs":[{"nodeName":"{{ inventory_hostname }}","orchestrator":"k8s"}]
+    }}' | {{ bin_dir }}/calicoctl.sh apply -f -
+  retries: 4
+  delay: "{{ retry_stagger | random + 3 }}"
+  with_items:
+    - "{{ route_reflectors|list|default([]) }}"
+
+- name: Calico | Configure RR ToR peering
+  shell: >
+    echo '{
+    "apiVersion": "projectcalico.org/v3",
+    "kind": "BGPPeer",
+    "metadata": {
+       "name": "bgppeer-{{ inventory_hostname }}-to-tor"
+    },
+    "spec": {
+      "peerIP": "{{ item.tor }}",
+      "node": "{{ inventory_hostname }}",
+      "asNumber": "{{ item.as }}"
+    }}' | {{ bin_dir }}/calicoctl.sh apply -f -
+  retries: 4
+  delay: "{{ retry_stagger | random + 3 }}"
+  with_items:
+    - "{{ route_reflectors|list|default([]) }}"
