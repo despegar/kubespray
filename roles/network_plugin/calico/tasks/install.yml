@@ -141,7 +141,8 @@
   set_fact:
     nodeToNodeMeshEnabled: "false"
   when:
-    - peer_with_router|default(false) or peer_with_calico_rr|default(false)
+    # despegar fix
+    # - peer_with_router|default(false) or peer_with_calico_rr|default(false)
     - inventory_hostname in groups['k8s-cluster']
   run_once: yes
 
@@ -315,3 +316,23 @@
   when:
     - peer_with_router|default(false)
     - inventory_hostname in groups['k8s-cluster']
+
+# despegar fix
+- name: Calico | Configure peering with route reflectors
+  shell: >
+    echo '{
+    "apiVersion": "projectcalico.org/v3",
+    "kind": "BGPPeer",
+    "metadata": {
+       "name": "{{ inventory_hostname }}-to-rr"
+    },
+    "spec": {
+       "node": "{{ inventory_hostname }}",
+       "peerIP": "{{ local_rr }}",
+       "asNumber": "{{ local_as }}"
+    }}' | {{ bin_dir }}/calicoctl.sh apply -f -
+  retries: 4
+  delay: "{{ retry_stagger | random + 3 }}"
+  when:
+    - not peer_with_router|default(false)
+    - inventory_hostname not in groups['calico-rr']

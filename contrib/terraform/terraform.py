@@ -300,16 +300,20 @@ def openstack_host(resource, module_name):
     ###########################################
     # despegar fix
     ###########################################
-    # calico rr
     if 'metadata.cluster_id' in raw_attrs:
         attrs['cluster_id'] = raw_attrs['metadata.cluster_id']
 
     if 'metadata.node_taints' in raw_attrs:
         attrs['node_taints'] = [ raw_attrs['metadata.node_taints'] ]
 
-    # calico AS
     if 'all_metadata.AS' in raw_attrs:
         attrs['local_as'] = raw_attrs['all_metadata.AS']
+
+    if 'all_metadata.RR' in raw_attrs:
+        attrs['local_rr'] = raw_attrs['all_metadata.RR']
+
+    if 'all_metadata.TOR' in raw_attrs:
+        attrs['local_tor'] = raw_attrs['all_metadata.TOR']
     ###########################################
 
     # attrs specific to Ansible

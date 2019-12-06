@@ -41,14 +41,12 @@
        "bgp": {
           "asNumber": "{{ local_as }}",
           "ipv4Address": "{{ ansible_default_ipv4.address }}",
-          "routeReflectorClusterID": "{{ item.cluster_id }}"
+          "routeReflectorClusterID": "{{ cluster_id }}"
        },
        "orchRefs":[{"nodeName":"{{ inventory_hostname }}","orchestrator":"k8s"}]
     }}' | {{ bin_dir }}/calicoctl.sh apply -f -
   retries: 4
   delay: "{{ retry_stagger | random + 3 }}"
-  with_items:
-    - "{{ route_reflectors|list|default([]) }}"
 
 - name: Calico | Configure RR ToR peering
   shell: >
@@ -59,11 +57,9 @@
        "name": "bgppeer-{{ inventory_hostname }}-to-tor"
     },
     "spec": {
-      "peerIP": "{{ item.tor }}",
+      "peerIP": "{{ local_tor }}",
       "node": "{{ inventory_hostname }}",
-      "asNumber": "{{ item.as }}"
+      "asNumber": "{{ local_as }}"
     }}' | {{ bin_dir }}/calicoctl.sh apply -f -
   retries: 4
   delay: "{{ retry_stagger | random + 3 }}"
-  with_items:
-    - "{{ route_reflectors|list|default([]) }}"
