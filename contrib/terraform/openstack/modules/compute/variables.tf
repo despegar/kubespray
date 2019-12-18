@@ -115,6 +115,10 @@ variable "worker_allowed_ports" {
   type = "list"
 }
 
+# despegar fix
+variable "flavor_calico_rr" {}
+
+# despegar fix
 variable "calico_rrs" {
   type = "list"
 }
