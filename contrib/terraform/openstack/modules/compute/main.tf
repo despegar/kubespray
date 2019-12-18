@@ -357,6 +357,9 @@ resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip" {
     ssh_user         = "${var.ssh_user}"
     kubespray_groups = "etcd,kube-master,${var.supplementary_master_groups},k8s-cluster,vault,no-floating"
     depends_on       = "${var.network_id}"
+    AS               = "${lookup(element(var.calico_rrs, count.index), "as")}"
+    RR               = "${lookup(element(var.calico_rrs, count.index), "ip")}"
+    TOR              = "${lookup(element(var.calico_rrs, count.index), "tor")}"
   }
 }
 
