@@ -222,12 +222,7 @@ variable "worker_allowed_ports" {
   ]
 }
 
-variable "calico_rr_subnets" {
-  type        = "list"
-  default     = []
-}
-
-variable "calico_rr_ips" {
+variable "calico_rrs" {
   type        = "list"
   default     = []
 }

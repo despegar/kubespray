@@ -115,10 +115,6 @@ variable "worker_allowed_ports" {
   type = "list"
 }
 
-variable "calico_rr_subnets" {
-  type = "list"
-}
-
-variable "calico_rr_ips" {
+variable "calico_rrs" {
   type = "list"
 }

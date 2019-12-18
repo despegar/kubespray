@@ -77,8 +77,7 @@ module "compute" {
   kube_pods_subnet                             = "${var.kube_pods_subnet}"         # despegar fix
   kube_service_addresses                       = "${var.kube_service_addresses}"   # despegar fix
   provider_network_id                          = "${var.provider_network_id}"      # despegar fix
-  calico_rr_subnets                            = "${var.calico_rr_subnets}"        # despegar fix
-  calico_rr_ips                                = "${var.calico_rr_ips}"            # despegar fix
+  calico_rrs                                   = "${var.calico_rrs}"               # despegar fix
 
   network_id = "${module.network.router_id}"
 }
