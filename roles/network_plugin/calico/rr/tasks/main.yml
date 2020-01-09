@@ -54,7 +54,7 @@
     "apiVersion": "projectcalico.org/v3",
     "kind": "BGPPeer",
     "metadata": {
-       "name": "bgppeer-{{ inventory_hostname }}-to-tor"
+       "name": "{{ inventory_hostname }}-to-tor"
     },
     "spec": {
       "peerIP": "{{ local_tor }}",
