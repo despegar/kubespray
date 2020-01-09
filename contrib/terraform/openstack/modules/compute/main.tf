@@ -359,6 +359,7 @@ resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip" {
     depends_on       = "${var.network_id}"
     AS               = "${lookup(element(var.calico_rrs, count.index), "as")}"
     RR               = "${lookup(element(var.calico_rrs, count.index), "ip")}"
+    RRBKP            = "${lookup(element(var.calico_rrs_bkp, count.index), "ip")}"
     TOR              = "${lookup(element(var.calico_rrs, count.index), "tor")}"
   }
 }
@@ -537,6 +538,7 @@ resource "openstack_compute_instance_v2" "k8s_node_no_floating_ip" {
     depends_on       = "${var.network_id}"
     AS               = "${lookup(element(var.calico_rrs, count.index), "as")}"
     RR               = "${lookup(element(var.calico_rrs, count.index), "ip")}"
+    RR_BKP           = "${lookup(element(var.calico_rrs_bkp, count.index), "ip")}"
     TOR              = "${lookup(element(var.calico_rrs, count.index), "tor")}"
   }
 }

@@ -336,3 +336,23 @@
   when:
     - not peer_with_router|default(false)
     - inventory_hostname not in groups['calico-rr']
+
+# despegar fix
+- name: Calico | Configure peering with backup route reflectors
+  shell: >
+    echo '{
+    "apiVersion": "projectcalico.org/v3",
+    "kind": "BGPPeer",
+    "metadata": {
+       "name": "{{ inventory_hostname }}-to-rr-bkp"
+    },
+    "spec": {
+       "node": "{{ inventory_hostname }}",
+       "peerIP": "{{ local_rr_bkp }}",
+       "asNumber": "{{ local_as }}"
+    }}' | {{ bin_dir }}/calicoctl.sh apply -f -
+  retries: 4
+  delay: "{{ retry_stagger | random + 3 }}"
+  when:
+    - not peer_with_router|default(false)
+    - inventory_hostname not in groups['calico-rr']

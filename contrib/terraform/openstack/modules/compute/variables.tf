@@ -122,3 +122,6 @@ variable "flavor_calico_rr" {}
 variable "calico_rrs" {
   type = "list"
 }
+variable "calico_rrs_bkp" {
+  type = "list"
+}

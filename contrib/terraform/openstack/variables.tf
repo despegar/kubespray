@@ -232,3 +232,7 @@ variable "calico_rrs" {
   type        = "list"
   default     = []
 }
+variable "calico_rrs_bkp" {
+  type        = "list"
+  default     = []
+}

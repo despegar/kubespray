@@ -79,6 +79,7 @@ module "compute" {
   provider_network_id                          = "${var.provider_network_id}"      # despegar fix
   flavor_calico_rr                             = "${var.flavor_calico_rr}"         # despegar fix
   calico_rrs                                   = "${var.calico_rrs}"               # despegar fix
+  calico_rrs_bkp                               = "${var.calico_rrs_bkp}"           # despegar fix
 
   network_id = "${module.network.router_id}"
 }
