@@ -20,7 +20,6 @@ inventory/*
 !inventory/local
 !inventory/sample
 inventory/*/artifacts/
-contrib/terraform/openstack/modules/calico_rr_nodes/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

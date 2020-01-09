@@ -2,10 +2,6 @@ provider "openstack" {
   version = "~> 1.17"
 }
 
-module "calico_rr_nodes" {
-  source = "./modules/calico_rr_nodes"
-}
-
 module "network" {
   source = "./modules/network"
 

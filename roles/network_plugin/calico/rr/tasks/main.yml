@@ -25,41 +25,5 @@
     {{ bin_dir }}/calicoctl.sh label node {{ inventory_hostname }}
     'i-am-a-route-reflector=true' --overwrite
 
-# despegar fix
-- name: Calico | Configure RR nodes ToR peering
-  shell: >
-    echo '{
-    "apiVersion": "projectcalico.org/v3",
-    "kind": "Node",
-    "metadata": {
-       "name": "{{ inventory_hostname }}",
-       "labels": {
-          "i-am-a-route-reflector": "true"
-       },
-    },
-    "spec": {
-       "bgp": {
-          "asNumber": "{{ local_as }}",
-          "ipv4Address": "{{ ansible_default_ipv4.address }}",
-          "routeReflectorClusterID": "{{ cluster_id }}"
-       },
-       "orchRefs":[{"nodeName":"{{ inventory_hostname }}","orchestrator":"k8s"}]
-    }}' | {{ bin_dir }}/calicoctl.sh apply -f -
-  retries: 4
-  delay: "{{ retry_stagger | random + 3 }}"
-
-- name: Calico | Configure RR ToR peering
-  shell: >
-    echo '{
-    "apiVersion": "projectcalico.org/v3",
-    "kind": "BGPPeer",
-    "metadata": {
-       "name": "{{ inventory_hostname }}-to-tor"
-    },
-    "spec": {
-      "peerIP": "{{ local_tor }}",
-      "node": "{{ inventory_hostname }}",
-      "asNumber": "{{ local_as }}"
-    }}' | {{ bin_dir }}/calicoctl.sh apply -f -
-  retries: 4
-  delay: "{{ retry_stagger | random + 3 }}"
+- name: Calico-rr | RR peering
+  include_tasks: rr_peering.yml
