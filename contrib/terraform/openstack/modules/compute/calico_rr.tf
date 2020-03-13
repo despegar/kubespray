@@ -14,6 +14,17 @@ resource "openstack_networking_secgroup_rule_v2" "rr" {
   security_group_id = "${openstack_networking_secgroup_v2.rr.id}"
 }
 
+resource "openstack_networking_secgroup_rule_v2" "rr-tcp" {
+  count             = "${length(var.worker_allowed_ports)}"
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "${lookup(var.worker_allowed_ports[count.index], "protocol", "tcp")}"
+  port_range_min    = "${lookup(var.worker_allowed_ports[count.index], "port_range_min")}"
+  port_range_max    = "${lookup(var.worker_allowed_ports[count.index], "port_range_max")}"
+  remote_ip_prefix  = "${lookup(var.worker_allowed_ports[count.index], "remote_ip_prefix", "0.0.0.0/0")}"
+  security_group_id = "${openstack_networking_secgroup_v2.rr.id}"
+}
+
 # RR PRIMARY
 resource "openstack_networking_port_v2" "k8s_calico_rr" {
   name           = "${var.cluster_name}-k8s-calico-rr-${count.index+1}"
