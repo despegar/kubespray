@@ -31,6 +31,13 @@ resource "openstack_networking_port_v2" "k8s_calico_rr" {
      "${openstack_networking_secgroup_v2.k8s.id}",
      "${openstack_networking_secgroup_v2.rr.id}"
    ]
+
+  allowed_address_pairs {
+    ip_address = "${var.kube_service_addresses}"
+  }
+  allowed_address_pairs {
+    ip_address = "${var.kube_pods_subnet}"
+  }
 }
 
 resource "openstack_compute_instance_v2" "k8s_calico_rr" {
@@ -74,6 +81,13 @@ resource "openstack_networking_port_v2" "k8s_calico_rr_bkp" {
      "${openstack_networking_secgroup_v2.k8s.id}",
      "${openstack_networking_secgroup_v2.rr.id}"
    ]
+
+  allowed_address_pairs {
+    ip_address = "${var.kube_service_addresses}"
+  }
+  allowed_address_pairs {
+    ip_address = "${var.kube_pods_subnet}"
+  }
 }
 
 resource "openstack_compute_instance_v2" "k8s_calico_rr_bkp" {
