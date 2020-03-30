@@ -16,4 +16,3 @@
   delay: "{{ retry_stagger | random + 3 }}"
   when:
     - not peer_with_router|default(false)
-    - inventory_hostname not in groups['calico-rr']
