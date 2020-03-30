@@ -118,12 +118,6 @@ variable "flavor_gfs_node" {
   default     = 3
 }
 
-# despegar fix
-variable "flavor_calico_rr" {
-  description = "Use 'openstack flavor list' command to see what your OpenStack instance uses for IDs"
-  default     = 3
-}
-
 variable "network_name" {
   description = "name of the internal network to use"
   default     = "internal"
@@ -228,11 +222,7 @@ variable "worker_allowed_ports" {
   ]
 }
 
-variable "calico_rrs" {
-  type        = "list"
-  default     = []
-}
-variable "calico_rrs_bkp" {
+variable "racks" {
   type        = "list"
   default     = []
 }

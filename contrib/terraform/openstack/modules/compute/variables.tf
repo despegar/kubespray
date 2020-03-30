@@ -116,12 +116,6 @@ variable "worker_allowed_ports" {
 }
 
 # despegar fix
-variable "flavor_calico_rr" {}
-
-# despegar fix
-variable "calico_rrs" {
-  type = "list"
-}
-variable "calico_rrs_bkp" {
+variable "racks" {
   type = "list"
 }
