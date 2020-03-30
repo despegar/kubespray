@@ -318,5 +318,5 @@
     - inventory_hostname in groups['k8s-cluster']
 
 # despegar fix
-- name: Calico | RR peering
-  include_tasks: rr_peering.yml
+- name: Calico | ToR peering
+  include_tasks: tor_peering.yml

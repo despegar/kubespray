@@ -1,0 +1,19 @@
+---
+- name: Calico | Configure peering with ToR
+  shell: >
+    echo '{
+    "apiVersion": "projectcalico.org/v3",
+    "kind": "BGPPeer",
+    "metadata": {
+       "name": "{{ inventory_hostname }}-to-tor"
+    },
+    "spec": {
+       "node": "{{ inventory_hostname }}",
+       "peerIP": "{{ local_tor }}",
+       "asNumber": "{{ local_as }}"
+    }}' | {{ bin_dir }}/calicoctl.sh apply -f -
+  retries: 4
+  delay: "{{ retry_stagger | random + 3 }}"
+  when:
+    - not peer_with_router|default(false)
+    - inventory_hostname not in groups['calico-rr']
