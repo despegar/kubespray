@@ -17,7 +17,7 @@ resource "openstack_networking_secgroup_rule_v2" "rr" {
 }
 
 resource "openstack_networking_secgroup_rule_v2" "rr-tcp" {
-  count             = "${var.flavor_calico_rr != "" ? length(var.worker_allowed_ports : 0}"
+  count             = "${var.flavor_calico_rr != "" ? length(var.worker_allowed_ports) : 0}"
   direction         = "ingress"
   ethertype         = "IPv4"
   protocol          = "${lookup(var.worker_allowed_ports[count.index], "protocol", "tcp")}"
