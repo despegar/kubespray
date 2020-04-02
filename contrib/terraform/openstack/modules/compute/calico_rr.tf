@@ -13,7 +13,7 @@ resource "openstack_networking_secgroup_rule_v2" "rr" {
   port_range_min    = "179"
   port_range_max    = "179"
   remote_ip_prefix  = "0.0.0.0/0"
-  security_group_id = "${openstack_networking_secgroup_v2.rr.id}"
+  security_group_id = "${openstack_networking_secgroup_v2.rr[0].id}"
 }
 
 resource "openstack_networking_secgroup_rule_v2" "rr-tcp" {
@@ -24,7 +24,7 @@ resource "openstack_networking_secgroup_rule_v2" "rr-tcp" {
   port_range_min    = "${lookup(var.worker_allowed_ports[count.index], "port_range_min")}"
   port_range_max    = "${lookup(var.worker_allowed_ports[count.index], "port_range_max")}"
   remote_ip_prefix  = "${lookup(var.worker_allowed_ports[count.index], "remote_ip_prefix", "0.0.0.0/0")}"
-  security_group_id = "${openstack_networking_secgroup_v2.rr.id}"
+  security_group_id = "${openstack_networking_secgroup_v2.rr[0].id}"
 }
 
 # RR PRIMARY
@@ -42,7 +42,7 @@ resource "openstack_networking_port_v2" "k8s_calico_rr" {
 
   security_group_ids = [
      "${openstack_networking_secgroup_v2.k8s.id}",
-     "${openstack_networking_secgroup_v2.rr.id}"
+     "${openstack_networking_secgroup_v2.rr[0].id}"
    ]
 
   allowed_address_pairs {
@@ -92,7 +92,7 @@ resource "openstack_networking_port_v2" "k8s_calico_rr_bkp" {
 
   security_group_ids = [
      "${openstack_networking_secgroup_v2.k8s.id}",
-     "${openstack_networking_secgroup_v2.rr.id}"
+     "${openstack_networking_secgroup_v2.rr[0].id}"
    ]
 
   allowed_address_pairs {
