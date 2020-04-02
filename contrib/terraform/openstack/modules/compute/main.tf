@@ -357,8 +357,10 @@ resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip" {
     ssh_user         = "${var.ssh_user}"
     kubespray_groups = "etcd,kube-master,${var.supplementary_master_groups},k8s-cluster,vault,no-floating"
     depends_on       = "${var.network_id}"
-    AS               = "${lookup(element(var.racks, count.index), "as")}"
-    TOR              = "${lookup(element(var.racks, count.index), "tor")}"
+    AS               = "${lookup(element(var.bgp_peerings, count.index), "as")}"
+    RR               = "${lookup(element(var.bgp_peerings, count.index), "ip", "")}"
+    RRBKP            = "${lookup(element(var.bgp_peerings_bkp, count.index), "ip", "")}"
+    TOR              = "${lookup(element(var.bgp_peerings, count.index), "tor")}"
   }
 }
 
@@ -534,8 +536,10 @@ resource "openstack_compute_instance_v2" "k8s_node_no_floating_ip" {
     ssh_user         = "${var.ssh_user}"
     kubespray_groups = "kube-node,k8s-cluster,no-floating,${var.supplementary_node_groups}"
     depends_on       = "${var.network_id}"
-    AS               = "${lookup(element(var.racks, count.index), "as")}"
-    TOR              = "${lookup(element(var.racks, count.index), "tor")}"
+    AS               = "${lookup(element(var.bgp_peerings, count.index), "as")}"
+    RR               = "${lookup(element(var.bgp_peerings, count.index), "ip", "")}"
+    RRBKP            = "${lookup(element(var.bgp_peerings_bkp, count.index), "ip", "")}"
+    TOR              = "${lookup(element(var.bgp_peerings, count.index), "tor")}"
   }
 }
 

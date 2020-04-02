@@ -116,6 +116,12 @@ variable "worker_allowed_ports" {
 }
 
 # despegar fix
-variable "racks" {
+variable "flavor_calico_rr" {}
+
+# despegar fix
+variable "bgp_peerings" {
+  type = "list"
+}
+variable "bgp_peerings_bkp" {
   type = "list"
 }
