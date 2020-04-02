@@ -1,5 +1,5 @@
 ---
-- name: Calico | Configure peering with ToR
+- name: Calico | Configure peering with ToR / route reflectors
   shell: >
     echo '{
     "apiVersion": "projectcalico.org/v3",

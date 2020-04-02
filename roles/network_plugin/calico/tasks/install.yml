@@ -318,5 +318,13 @@
     - inventory_hostname in groups['k8s-cluster']
 
 # despegar fix
-- name: Calico | ToR peering
-  include_tasks: tor_peering.yml
+- name: Calico | BGP peering RR
+  include_tasks: bgp_peering_rr.yml
+  when:
+    - "'calico-rr' in groups"
+
+# despegar fix
+- name: Calico | BGP peering ToR
+  include_tasks: bgp_peering_tor.yml
+  when:
+    - "not 'calico-rr' in groups"
