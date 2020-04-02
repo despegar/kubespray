@@ -359,7 +359,7 @@ resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip" {
     depends_on       = "${var.network_id}"
     AS               = "${lookup(element(var.bgp_peerings, count.index), "as")}"
     RR               = "${lookup(element(var.bgp_peerings, count.index), "ip", "")}"
-    RRBKP            = "${length(var.bgp_peerings_bkp) > 0 ? lookup(element(concat(var.bgp_peerings_bkp, list("")), count.index), "ip") : ""}" # https://github.com/hashicorp/terraform/issues/11210
+    RRBKP            = "${length(var.bgp_peerings_bkp) > 0 ? lookup(element(var.bgp_peerings_bkp, count.index), "ip") : ""}" # https://github.com/hashicorp/terraform/issues/11210
     TOR              = "${lookup(element(var.bgp_peerings, count.index), "tor")}"
   }
 }
@@ -538,7 +538,7 @@ resource "openstack_compute_instance_v2" "k8s_node_no_floating_ip" {
     depends_on       = "${var.network_id}"
     AS               = "${lookup(element(var.bgp_peerings, count.index), "as")}"
     RR               = "${lookup(element(var.bgp_peerings, count.index), "ip", "")}"
-    RRBKP            = "${length(var.bgp_peerings_bkp) > 0 ? lookup(element(concat(var.bgp_peerings_bkp, list("")), count.index), "ip") : ""}" # https://github.com/hashicorp/terraform/issues/11210
+    RRBKP            = "${length(var.bgp_peerings_bkp) > 0 ? lookup(element(var.bgp_peerings_bkp, count.index), "ip") : ""}" # https://github.com/hashicorp/terraform/issues/11210
     TOR              = "${lookup(element(var.bgp_peerings, count.index), "tor")}"
   }
 }
