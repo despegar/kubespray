@@ -1,12 +1,12 @@
 resource "openstack_networking_secgroup_v2" "rr" {
-  count = "${var.flavor_calico_rr != "" ? 1 : 0}"
+  count                = "${var.flavor_calico_rr != "" ? 1 : 0}"
   name                 = "${var.cluster_name}-rr"
   description          = "${var.cluster_name} - Calico Route Reflector"
   delete_default_rules = true
 }
 
 resource "openstack_networking_secgroup_rule_v2" "rr" {
-  count = "${var.flavor_calico_rr != "" ? 1 : 0}"
+  count             = "${var.flavor_calico_rr != "" ? 1 : 0}"
   direction         = "ingress"
   ethertype         = "IPv4"
   protocol          = "tcp"
@@ -17,7 +17,7 @@ resource "openstack_networking_secgroup_rule_v2" "rr" {
 }
 
 resource "openstack_networking_secgroup_rule_v2" "rr-tcp" {
-  count             = "${length(var.worker_allowed_ports)}"
+  count             = "${var.flavor_calico_rr != "" ? length(var.worker_allowed_ports : 0}"
   direction         = "ingress"
   ethertype         = "IPv4"
   protocol          = "${lookup(var.worker_allowed_ports[count.index], "protocol", "tcp")}"
