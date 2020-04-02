@@ -73,7 +73,9 @@ module "compute" {
   kube_pods_subnet                             = "${var.kube_pods_subnet}"         # despegar fix
   kube_service_addresses                       = "${var.kube_service_addresses}"   # despegar fix
   provider_network_id                          = "${var.provider_network_id}"      # despegar fix
-  racks                                        = "${var.racks}"                    # despegar fix
+  flavor_calico_rr                             = "${var.flavor_calico_rr}"         # despegar fix
+  bgp_peerings                                 = "${var.bgp_peerings}"             # despegar fix
+  bgp_peerings_bkp                             = "${var.bgp_peerings_bkp}"         # despegar fix
 
   network_id = "${module.network.router_id}"
 }
