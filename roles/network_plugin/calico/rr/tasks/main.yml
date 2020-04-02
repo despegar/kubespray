@@ -24,3 +24,6 @@
   command: >-
     {{ bin_dir }}/calicoctl.sh label node {{ inventory_hostname }}
     'i-am-a-route-reflector=true' --overwrite
+
+- name: Calico-rr | RR peering
+  include_tasks: rr_peering.yml
