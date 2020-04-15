@@ -15,6 +15,7 @@ common_required_pkgs:
   - unzip
   - e2fsprogs
   - xfsprogs
+  - conntrack
 
 # Set to true if your network does not support IPv6
 # This maybe necessary for pulling Docker images from
@@ -54,3 +55,5 @@ etc_hosts_localhost_entries:
 # Minimal memory requirement in MB for safety checks
 minimal_node_memory_mb: 1024
 minimal_master_memory_mb: 1500
+
+yum_repo_dir: /etc/yum.repos.d

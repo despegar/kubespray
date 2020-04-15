@@ -115,6 +115,12 @@ variable "worker_allowed_ports" {
   type = "list"
 }
 
+variable "use_access_ip" {}
+
+variable "use_server_groups" {
+  type = bool
+}
+
 # despegar fix
 variable "flavor_calico_rr" {}
 
