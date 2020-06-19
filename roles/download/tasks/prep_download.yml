@@ -24,7 +24,6 @@
     path: "{{ local_release_dir }}/images"
     state: directory
     recurse: yes
-    # despegar fix
     mode: 0755
     owner: "{{ ansible_ssh_user | default(ansible_user_id) }}"
   when:
@@ -35,6 +34,7 @@
     path: "{{ download_cache_dir }}/images"
     state: directory
     recurse: yes
+    # despegar fix
     mode: 0777
   delegate_to: localhost
   delegate_facts: no
