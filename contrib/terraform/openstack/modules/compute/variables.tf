@@ -58,11 +58,19 @@ variable "flavor_gfs_node" {}
 
 variable "network_name" {}
 
+# despegar fix
+variable "provider_network_id" {}
+
 variable "flavor_bastion" {}
 
 variable "network_id" {
   default = ""
 }
+# despegar fix
+variable "kube_service_addresses" {}
+
+# despegar fix
+variable "kube_pods_subnet" {}
 
 variable "k8s_master_fips" {
   type = "list"
@@ -120,4 +128,14 @@ variable "use_access_ip" {}
 
 variable "use_server_groups" {
   type = bool
+}
+# despegar fix
+variable "flavor_calico_rr" {}
+
+# despegar fix
+variable "bgp_peerings" {
+  type = "list"
+}
+variable "bgp_peerings_bkp" {
+  type = "list"
 }

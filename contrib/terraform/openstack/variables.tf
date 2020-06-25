@@ -123,10 +123,29 @@ variable "flavor_gfs_node" {
   description = "Use 'openstack flavor list' command to see what your OpenStack instance uses for IDs"
   default     = 3
 }
+# despegar fix
+variable "flavor_calico_rr" {
+  description = "Use 'openstack flavor list' command to see what your OpenStack instance uses for IDs"
+  default     = 3
+}
 
 variable "network_name" {
   description = "name of the internal network to use"
   default     = "internal"
+}
+# despegar fix
+variable "provider_network_id" {
+   default = ""
+}
+
+# despegar fix
+variable "kube_service_addresses" {
+   default = ""
+}
+
+# despegar fix
+variable "kube_pods_subnet" {
+   default = ""
 }
 
 variable "network_dns_domain" {
@@ -230,3 +249,11 @@ variable "k8s_nodes" {
   default = {}
 }
 
+variable "bgp_peerings" {
+  type        = "list"
+  default     = []
+}
+variable "bgp_peerings_bkp" {
+  type        = "list"
+  default     = []
+}
