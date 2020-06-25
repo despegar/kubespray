@@ -1,7 +1,11 @@
 variable "cluster_name" {}
 
 variable "az_list" {
-  type = "list"
+  type = list(string)
+}
+
+variable "az_list_node" {
+  type = list(string)
 }
 
 variable "number_of_k8s_masters" {}
@@ -54,20 +58,11 @@ variable "flavor_gfs_node" {}
 
 variable "network_name" {}
 
-# despegar fix
-variable "provider_network_id" {}
-
 variable "flavor_bastion" {}
 
 variable "network_id" {
   default = ""
 }
-
-# despegar fix
-variable "kube_service_addresses" {}
-
-# despegar fix
-variable "kube_pods_subnet" {}
 
 variable "k8s_master_fips" {
   type = "list"
@@ -79,6 +74,10 @@ variable "k8s_master_no_etcd_fips" {
 
 variable "k8s_node_fips" {
   type = "list"
+}
+
+variable "k8s_nodes_fips" {
+  type = "map"
 }
 
 variable "bastion_fips" {
@@ -101,6 +100,8 @@ variable "k8s_allowed_egress_ips" {
   type = "list"
 }
 
+variable "k8s_nodes" {}
+
 variable "wait_for_floatingip" {}
 
 variable "supplementary_master_groups" {
@@ -115,13 +116,8 @@ variable "worker_allowed_ports" {
   type = "list"
 }
 
-# despegar fix
-variable "flavor_calico_rr" {}
+variable "use_access_ip" {}
 
-# despegar fix
-variable "bgp_peerings" {
-  type = "list"
-}
-variable "bgp_peerings_bkp" {
-  type = "list"
+variable "use_server_groups" {
+  type = bool
 }

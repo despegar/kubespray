@@ -3,8 +3,14 @@ variable "cluster_name" {
 }
 
 variable "az_list" {
-  description = "List of Availability Zones available in your OpenStack cluster"
-  type        = "list"
+  description = "List of Availability Zones to use for masters in your OpenStack cluster"
+  type        = list(string)
+  default     = ["nova"]
+}
+
+variable "az_list_node" {
+  description = "List of Availability Zones to use for nodes in your OpenStack cluster"
+  type        = list(string)
   default     = ["nova"]
 }
 
@@ -118,30 +124,9 @@ variable "flavor_gfs_node" {
   default     = 3
 }
 
-# despegar fix
-variable "flavor_calico_rr" {
-  description = "Use 'openstack flavor list' command to see what your OpenStack instance uses for IDs"
-  default     = 3
-}
-
 variable "network_name" {
   description = "name of the internal network to use"
   default     = "internal"
-}
-
-# despegar fix
-variable "provider_network_id" {
-   default = ""
-}
-
-# despegar fix
-variable "kube_service_addresses" {
-   default = ""
-}
-
-# despegar fix
-variable "kube_pods_subnet" {
-   default = ""
 }
 
 variable "network_dns_domain" {
@@ -228,11 +213,20 @@ variable "worker_allowed_ports" {
   ]
 }
 
-variable "bgp_peerings" {
-  type        = "list"
-  default     = []
+variable "use_access_ip" {
+  default = 1
 }
-variable "bgp_peerings_bkp" {
-  type        = "list"
-  default     = []
+
+variable "use_server_groups" {
+  default = false
 }
+
+variable "router_id" {
+  description = "uuid of an externally defined router to use"
+  default     = null
+}
+
+variable "k8s_nodes" {
+  default = {}
+}
+
