@@ -46,6 +46,16 @@ variable "number_of_k8s_nodes_no_floating_ip" {
   default = 1
 }
 
+# despegar fix
+variable "number_of_k8s_nodes_small" {
+  default = 0
+}
+
+# despegar fix
+variable "number_of_k8s_nodes_medium" {
+  default = 0
+}
+
 variable "number_of_gfs_nodes_no_floating_ip" {
   default = 0
 }

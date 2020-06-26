@@ -22,6 +22,12 @@ variable "number_of_k8s_nodes" {}
 
 variable "number_of_k8s_nodes_no_floating_ip" {}
 
+# despegar fix
+variable "number_of_k8s_nodes_small" {}
+
+# despegar fix
+variable "number_of_k8s_nodes_medium" {}
+
 variable "number_of_bastions" {}
 
 variable "number_of_gfs_nodes_no_floating_ip" {}
