@@ -7,7 +7,6 @@ resource "openstack_compute_instance_v2" "k8s_node_small" {
   flavor_id         = "${var.flavor_k8s_node_small}"
   key_pair          = "${openstack_compute_keypair_v2.k8s.name}"
 
-  # despegar fix
   lifecycle {
     ignore_changes = [
       availability_zone,
@@ -61,7 +60,6 @@ resource "openstack_compute_instance_v2" "k8s_node_medium" {
   flavor_id         = "${var.flavor_k8s_node_medium}"
   key_pair          = "${openstack_compute_keypair_v2.k8s.name}"
 
-  # despegar fix
   lifecycle {
     ignore_changes = [
       availability_zone,
