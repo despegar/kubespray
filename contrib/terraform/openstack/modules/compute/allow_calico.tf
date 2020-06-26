@@ -1,6 +1,8 @@
 # allow address pairs calico
+
+# MASTER
 resource "openstack_networking_port_v2" "k8s_master_no_floating_ip" {
-  name           = "${var.cluster_name}-k8s-master-nf-${count.index+1}"
+  name           = "${var.cluster_name}-k8s-master-${count.index+1}"
   count          = "${var.number_of_k8s_masters_no_floating_ip}"
   admin_state_up = "true"
 
@@ -20,9 +22,50 @@ resource "openstack_networking_port_v2" "k8s_master_no_floating_ip" {
   }
 }
 
+# NODES NO FLOATING
 resource "openstack_networking_port_v2" "k8s_node_no_floating_ip" {
   name           = "${var.cluster_name}-k8s-node-nf-${count.index+1}"
   count          = "${var.number_of_k8s_nodes_no_floating_ip}"
+  admin_state_up = "true"
+
+  network_id     = "${var.provider_network_id}"
+
+  security_group_ids = ["${openstack_networking_secgroup_v2.k8s.id}",
+    "${openstack_networking_secgroup_v2.worker.id}",
+  ]
+
+  allowed_address_pairs {
+    ip_address = "${var.kube_service_addresses}"
+  }
+  allowed_address_pairs {
+    ip_address = "${var.kube_pods_subnet}"
+  }
+}
+
+# NODES SMALL
+resource "openstack_networking_port_v2" "k8s_node_small" {
+  name           = "${var.cluster_name}-k8s-node-small-${count.index+1}"
+  count          = "${var.number_of_k8s_nodes_small}"
+  admin_state_up = "true"
+
+  network_id     = "${var.provider_network_id}"
+
+  security_group_ids = ["${openstack_networking_secgroup_v2.k8s.id}",
+    "${openstack_networking_secgroup_v2.worker.id}",
+  ]
+
+  allowed_address_pairs {
+    ip_address = "${var.kube_service_addresses}"
+  }
+  allowed_address_pairs {
+    ip_address = "${var.kube_pods_subnet}"
+  }
+}
+
+# NODES MEDIUM
+resource "openstack_networking_port_v2" "k8s_node_medium" {
+  name           = "${var.cluster_name}-k8s-node-medium-${count.index+1}"
+  count          = "${var.number_of_k8s_nodes_medium}"
   admin_state_up = "true"
 
   network_id     = "${var.provider_network_id}"
