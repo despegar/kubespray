@@ -309,6 +309,15 @@ resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip" {
     }
   }
 
+  # despegar fix
+  lifecycle {
+    ignore_changes = [
+      availability_zone,
+      metadata["AS"],
+      metadata["TOR"]
+    ]
+  }
+
   network {
     # despegar fix
     port = "${element(openstack_networking_port_v2.k8s_master_no_floating_ip.*.id, count.index)}"
@@ -435,6 +444,15 @@ resource "openstack_compute_instance_v2" "k8s_node_no_floating_ip" {
   image_name        = "${var.image}"
   flavor_id         = "${var.flavor_k8s_node}"
   key_pair          = "${openstack_compute_keypair_v2.k8s.name}"
+
+  # despegar fix
+  lifecycle {
+    ignore_changes = [
+      availability_zone,
+      metadata["AS"],
+      metadata["TOR"]
+    ]
+  }
 
   dynamic "block_device" {
     for_each = var.node_root_volume_size_in_gb > 0 ? [var.image] : []
