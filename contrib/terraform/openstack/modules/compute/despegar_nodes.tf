@@ -7,6 +7,14 @@ resource "openstack_compute_instance_v2" "k8s_node_small" {
   flavor_id         = "${var.flavor_k8s_node_small}"
   key_pair          = "${openstack_compute_keypair_v2.k8s.name}"
 
+  lifecycle {
+    ignore_changes = [
+      availability_zone,
+      metadata["AS"],
+      metadata["TOR"]
+    ]
+  }
+
   dynamic "block_device" {
     for_each = var.node_root_volume_size_in_gb > 0 ? [var.image] : []
     content {
@@ -51,6 +59,14 @@ resource "openstack_compute_instance_v2" "k8s_node_medium" {
   image_name        = "${var.image}"
   flavor_id         = "${var.flavor_k8s_node_medium}"
   key_pair          = "${openstack_compute_keypair_v2.k8s.name}"
+
+  lifecycle {
+    ignore_changes = [
+      availability_zone,
+      metadata["AS"],
+      metadata["TOR"]
+    ]
+  }
 
   dynamic "block_device" {
     for_each = var.node_root_volume_size_in_gb > 0 ? [var.image] : []
