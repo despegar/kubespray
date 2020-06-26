@@ -124,6 +124,17 @@ variable "flavor_k8s_node" {
   default     = 3
 }
 
+# despegar fix
+variable "flavor_k8s_node_small" {
+  description = "Use 'openstack flavor list' command to see what your OpenStack instance uses for IDs"
+  default     = 3
+}
+
+# despegar fix
+variable "flavor_k8s_node_medium" {
+  description = "Use 'openstack flavor list' command to see what your OpenStack instance uses for IDs"
+  default     = 3
+}
 variable "flavor_etcd" {
   description = "Use 'openstack flavor list' command to see what your OpenStack instance uses for IDs"
   default     = 3

@@ -58,6 +58,12 @@ variable "flavor_k8s_master" {}
 
 variable "flavor_k8s_node" {}
 
+# despegar fix
+variable "flavor_k8s_node_small" {}
+
+# despegar fix
+variable "flavor_k8s_node_medium" {}
+
 variable "flavor_etcd" {}
 
 variable "flavor_gfs_node" {}
