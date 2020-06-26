@@ -4,7 +4,7 @@ resource "openstack_compute_instance_v2" "k8s_node_small" {
   count             = "${var.number_of_k8s_nodes_small}"
   availability_zone = "${element(var.az_list_node, count.index)}"
   image_name        = "${var.image}"
-  flavor_id         = "${var.flavor_k8s_node}"
+  flavor_id         = "${var.flavor_k8s_node_small}"
   key_pair          = "${openstack_compute_keypair_v2.k8s.name}"
 
   dynamic "block_device" {
@@ -49,7 +49,7 @@ resource "openstack_compute_instance_v2" "k8s_node_medium" {
   count             = "${var.number_of_k8s_nodes_medium}"
   availability_zone = "${element(var.az_list_node, count.index)}"
   image_name        = "${var.image}"
-  flavor_id         = "${var.flavor_k8s_node}"
+  flavor_id         = "${var.flavor_k8s_node_medium}"
   key_pair          = "${openstack_compute_keypair_v2.k8s.name}"
 
   dynamic "block_device" {
