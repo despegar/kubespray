@@ -39,10 +39,6 @@ resource "openstack_compute_instance_v2" "k8s_node_small" {
     kubespray_groups = "kube-node,k8s-cluster,no-floating,${var.supplementary_node_groups}"
     depends_on       = "${var.network_id}"
     use_access_ip    = "${var.use_access_ip}"
-    AS               = "${lookup(element(var.bgp_peerings, count.index), "as")}"
-    RR               = "${lookup(element(var.bgp_peerings, count.index), "ip", "")}"
-    RRBKP            = "${length(var.bgp_peerings_bkp) > 0 ? lookup(element(var.bgp_peerings_bkp, count.index), "ip") : ""}" # https://github.com/hashicorp/terraform/issues/11210
-    TOR              = "${lookup(element(var.bgp_peerings, count.index), "tor")}"
   }
 }
 
@@ -88,9 +84,5 @@ resource "openstack_compute_instance_v2" "k8s_node_medium" {
     kubespray_groups = "kube-node,k8s-cluster,no-floating,${var.supplementary_node_groups}"
     depends_on       = "${var.network_id}"
     use_access_ip    = "${var.use_access_ip}"
-    AS               = "${lookup(element(var.bgp_peerings, count.index), "as")}"
-    RR               = "${lookup(element(var.bgp_peerings, count.index), "ip", "")}"
-    RRBKP            = "${length(var.bgp_peerings_bkp) > 0 ? lookup(element(var.bgp_peerings_bkp, count.index), "ip") : ""}" # https://github.com/hashicorp/terraform/issues/11210
-    TOR              = "${lookup(element(var.bgp_peerings, count.index), "tor")}"
   }
 }
