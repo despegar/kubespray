@@ -309,24 +309,13 @@ resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip" {
     }
   }
 
-  # despegar fix
-  lifecycle {
-    ignore_changes = [
-      availability_zone,
-      metadata["AS"],
-      metadata["TOR"]
-    ]
-  }
-
   network {
-    # despegar fix
-    port = "${element(openstack_networking_port_v2.k8s_master_no_floating_ip.*.id, count.index)}"
+    name = "${var.network_name}"
   }
 
-  # despegar fix
-  # security_groups = ["${openstack_networking_secgroup_v2.k8s_master.name}",
-  #   "${openstack_networking_secgroup_v2.k8s.name}",
-  # ]
+  security_groups = ["${openstack_networking_secgroup_v2.k8s_master.name}",
+    "${openstack_networking_secgroup_v2.k8s.name}",
+  ]
 
   dynamic "scheduler_hints" {
     for_each = var.use_server_groups ? [openstack_compute_servergroup_v2.k8s_master[0]] : []
@@ -340,10 +329,6 @@ resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip" {
     kubespray_groups = "etcd,kube-master,${var.supplementary_master_groups},k8s-cluster,vault,no-floating"
     depends_on       = "${var.network_id}"
     use_access_ip    = "${var.use_access_ip}"
-    AS               = "${lookup(element(var.bgp_peerings, count.index), "as")}"
-    RR               = "${lookup(element(var.bgp_peerings, count.index), "ip", "")}"
-    RRBKP            = "${length(var.bgp_peerings_bkp) > 0 ? lookup(element(var.bgp_peerings_bkp, count.index), "ip") : ""}" # https://github.com/hashicorp/terraform/issues/11210
-    TOR              = "${lookup(element(var.bgp_peerings, count.index), "tor")}"
   }
 }
 
@@ -445,15 +430,6 @@ resource "openstack_compute_instance_v2" "k8s_node_no_floating_ip" {
   flavor_id         = "${var.flavor_k8s_node}"
   key_pair          = "${openstack_compute_keypair_v2.k8s.name}"
 
-  # despegar fix
-  lifecycle {
-    ignore_changes = [
-      availability_zone,
-      metadata["AS"],
-      metadata["TOR"]
-    ]
-  }
-
   dynamic "block_device" {
     for_each = var.node_root_volume_size_in_gb > 0 ? [var.image] : []
     content {
@@ -467,14 +443,12 @@ resource "openstack_compute_instance_v2" "k8s_node_no_floating_ip" {
   }
 
   network {
-    # despegar fix
-    port = "${element(openstack_networking_port_v2.k8s_node_no_floating_ip.*.id, count.index)}"
+    name = "${var.network_name}"
   }
 
-  # despegar fix
-  # security_groups = ["${openstack_networking_secgroup_v2.k8s.name}",
-  #   "${openstack_networking_secgroup_v2.worker.name}",
-  # ]
+  security_groups = ["${openstack_networking_secgroup_v2.k8s.name}",
+    "${openstack_networking_secgroup_v2.worker.name}",
+  ]
 
   dynamic "scheduler_hints" {
     for_each = var.use_server_groups ? [openstack_compute_servergroup_v2.k8s_node[0]] : []
@@ -488,10 +462,6 @@ resource "openstack_compute_instance_v2" "k8s_node_no_floating_ip" {
     kubespray_groups = "kube-node,k8s-cluster,no-floating,${var.supplementary_node_groups}"
     depends_on       = "${var.network_id}"
     use_access_ip    = "${var.use_access_ip}"
-    AS               = "${lookup(element(var.bgp_peerings, count.index), "as")}"
-    RR               = "${lookup(element(var.bgp_peerings, count.index), "ip", "")}"
-    RRBKP            = "${length(var.bgp_peerings_bkp) > 0 ? lookup(element(var.bgp_peerings_bkp, count.index), "ip") : ""}" # https://github.com/hashicorp/terraform/issues/11210
-    TOR              = "${lookup(element(var.bgp_peerings, count.index), "tor")}"
   }
 }
 
