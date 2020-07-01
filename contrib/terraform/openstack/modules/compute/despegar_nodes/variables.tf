@@ -33,7 +33,3 @@ variable "key_pair" {}
 variable "secgroups" {}
 
 variable "supplementary_node_groups" {}
-
-variable "despegar_k8s_nodes" {
-  type = "map"
-}
