@@ -10,7 +10,7 @@ module "nodes_sm1" {
   ssh_user                                     = "${var.ssh_user}"
   flavor_k8s_node                              = "1000"
   network_name                                 = "${var.network_name}"
-  network_id                                   = "${module.network.router_id}"
+  network_id                                   = "${var.network_id}"
   use_access_ip                                = "${var.use_access_ip}"
   use_server_groups                            = "${var.use_server_groups}"
 }
@@ -27,7 +27,7 @@ module "nodes_sm2" {
   ssh_user                                     = "${var.ssh_user}"
   flavor_k8s_node                              = "1001"
   network_name                                 = "${var.network_name}"
-  network_id                                   = "${module.network.router_id}"
+  network_id                                   = "${var.network_id}"
   use_access_ip                                = "${var.use_access_ip}"
   use_server_groups                            = "${var.use_server_groups}"
 }
