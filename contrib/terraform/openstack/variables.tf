@@ -230,3 +230,7 @@ variable "k8s_nodes" {
   default = {}
 }
 
+variable "despegar_k8s_nodes" {
+  type    = "map"
+  default = {}
+}
