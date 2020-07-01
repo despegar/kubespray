@@ -22,12 +22,6 @@ variable "number_of_k8s_nodes" {}
 
 variable "number_of_k8s_nodes_no_floating_ip" {}
 
-# despegar fix
-variable "number_of_k8s_nodes_small" {}
-
-# despegar fix
-variable "number_of_k8s_nodes_medium" {}
-
 variable "number_of_bastions" {}
 
 variable "number_of_gfs_nodes_no_floating_ip" {}
@@ -57,12 +51,6 @@ variable "ssh_user_gfs" {}
 variable "flavor_k8s_master" {}
 
 variable "flavor_k8s_node" {}
-
-# despegar fix
-variable "flavor_k8s_node_small" {}
-
-# despegar fix
-variable "flavor_k8s_node_medium" {}
 
 variable "flavor_etcd" {}
 

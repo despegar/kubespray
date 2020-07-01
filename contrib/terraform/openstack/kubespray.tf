@@ -43,8 +43,6 @@ module "compute" {
   number_of_k8s_nodes                          = "${var.number_of_k8s_nodes}"
   number_of_bastions                           = "${var.number_of_bastions}"
   number_of_k8s_nodes_no_floating_ip           = "${var.number_of_k8s_nodes_no_floating_ip}"
-  number_of_k8s_nodes_small                    = "${var.number_of_k8s_nodes_small}"       # despegar fix
-  number_of_k8s_nodes_medium                   = "${var.number_of_k8s_nodes_medium}"      # despegar fix
   number_of_gfs_nodes_no_floating_ip           = "${var.number_of_gfs_nodes_no_floating_ip}"
   k8s_nodes                                    = "${var.k8s_nodes}"
   bastion_root_volume_size_in_gb               = "${var.bastion_root_volume_size_in_gb}"
@@ -60,8 +58,6 @@ module "compute" {
   ssh_user_gfs                                 = "${var.ssh_user_gfs}"
   flavor_k8s_master                            = "${var.flavor_k8s_master}"
   flavor_k8s_node                              = "${var.flavor_k8s_node}"
-  flavor_k8s_node_small                        = "${var.flavor_k8s_node_small}"   # despegar fix
-  flavor_k8s_node_medium                       = "${var.flavor_k8s_node_medium}"  # despegar fix
   flavor_etcd                                  = "${var.flavor_etcd}"
   flavor_gfs_node                              = "${var.flavor_gfs_node}"
   network_name                                 = "${var.network_name}"
