@@ -26,6 +26,4 @@ variable "network_id" {
 
 variable "use_access_ip" {}
 
-variable "use_server_groups" {
-  type = bool
-}
+variable "key_pair" {}
