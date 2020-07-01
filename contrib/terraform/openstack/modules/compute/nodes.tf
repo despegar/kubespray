@@ -14,6 +14,7 @@ module "nodes_sm1" {
   use_access_ip                                = "${var.use_access_ip}"
   key_pair                                     = "${openstack_compute_keypair_v2.k8s.name}"
   secgroups                                    = ["${openstack_networking_secgroup_v2.k8s.name}", "${openstack_networking_secgroup_v2.worker.name}"]
+  supplementary_node_groups                    = "${var.supplementary_node_groups}"
 }
 
 module "nodes_sm2" {
@@ -32,4 +33,5 @@ module "nodes_sm2" {
   use_access_ip                                = "${var.use_access_ip}"
   key_pair                                     = "${openstack_compute_keypair_v2.k8s.name}"
   secgroups                                    = ["${openstack_networking_secgroup_v2.k8s.name}", "${openstack_networking_secgroup_v2.worker.name}"]
+  supplementary_node_groups                    = "${var.supplementary_node_groups}"
 }

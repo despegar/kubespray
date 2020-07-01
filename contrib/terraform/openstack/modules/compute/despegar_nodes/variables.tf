@@ -29,3 +29,5 @@ variable "use_access_ip" {}
 variable "key_pair" {}
 
 variable "secgroups" {}
+
+variable "supplementary_node_groups" {}
