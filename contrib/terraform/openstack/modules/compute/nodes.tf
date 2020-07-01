@@ -1,7 +1,7 @@
-module "nodes_sm1" {
+module "nodes_type1" {
   source = "./despegar_nodes"
 
-  node_type                                    = "sm1"
+  node_type                                    = "t01"
   cluster_name                                 = "${var.cluster_name}"
   az_list                                      = "${var.az_list}"
   az_list_node                                 = "${var.az_list_node}"
@@ -18,10 +18,10 @@ module "nodes_sm1" {
   supplementary_node_groups                    = "${var.supplementary_node_groups}"
 }
 
-module "nodes_sm2" {
+module "nodes_type2" {
   source = "./despegar_nodes"
 
-  node_type                                    = "sm2"
+  node_type                                    = "t02"
   cluster_name                                 = "${var.cluster_name}"
   az_list                                      = "${var.az_list}"
   az_list_node                                 = "${var.az_list_node}"
@@ -38,10 +38,10 @@ module "nodes_sm2" {
   supplementary_node_groups                    = "${var.supplementary_node_groups}"
 }
 
-module "nodes_sm3" {
+module "nodes_type3" {
   source = "./despegar_nodes"
 
-  node_type                                    = "sm3"
+  node_type                                    = "t03"
   cluster_name                                 = "${var.cluster_name}"
   az_list                                      = "${var.az_list}"
   az_list_node                                 = "${var.az_list_node}"
@@ -58,10 +58,10 @@ module "nodes_sm3" {
   supplementary_node_groups                    = "${var.supplementary_node_groups}"
 }
 
-module "nodes_sm4" {
+module "nodes_type4" {
   source = "./despegar_nodes"
 
-  node_type                                    = "sm4"
+  node_type                                    = "t04"
   cluster_name                                 = "${var.cluster_name}"
   az_list                                      = "${var.az_list}"
   az_list_node                                 = "${var.az_list_node}"
@@ -78,10 +78,10 @@ module "nodes_sm4" {
   supplementary_node_groups                    = "${var.supplementary_node_groups}"
 }
 
-module "nodes_sm5" {
+module "nodes_type5" {
   source = "./despegar_nodes"
 
-  node_type                                    = "sm5"
+  node_type                                    = "t05"
   cluster_name                                 = "${var.cluster_name}"
   az_list                                      = "${var.az_list}"
   az_list_node                                 = "${var.az_list_node}"
@@ -98,10 +98,10 @@ module "nodes_sm5" {
   supplementary_node_groups                    = "${var.supplementary_node_groups}"
 }
 
-module "nodes_sm6" {
+module "nodes_type6" {
   source = "./despegar_nodes"
 
-  node_type                                    = "sm6"
+  node_type                                    = "t06"
   cluster_name                                 = "${var.cluster_name}"
   az_list                                      = "${var.az_list}"
   az_list_node                                 = "${var.az_list_node}"
@@ -118,10 +118,10 @@ module "nodes_sm6" {
   supplementary_node_groups                    = "${var.supplementary_node_groups}"
 }
 
-module "nodes_sm7" {
+module "nodes_type7" {
   source = "./despegar_nodes"
 
-  node_type                                    = "sm7"
+  node_type                                    = "t07"
   cluster_name                                 = "${var.cluster_name}"
   az_list                                      = "${var.az_list}"
   az_list_node                                 = "${var.az_list_node}"
@@ -138,10 +138,10 @@ module "nodes_sm7" {
   supplementary_node_groups                    = "${var.supplementary_node_groups}"
 }
 
-module "nodes_sm8" {
+module "nodes_type8" {
   source = "./despegar_nodes"
 
-  node_type                                    = "sm8"
+  node_type                                    = "t08"
   cluster_name                                 = "${var.cluster_name}"
   az_list                                      = "${var.az_list}"
   az_list_node                                 = "${var.az_list_node}"
