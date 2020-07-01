@@ -77,6 +77,7 @@ module "compute" {
   wait_for_floatingip                          = "${var.wait_for_floatingip}"
   use_access_ip                                = "${var.use_access_ip}"
   use_server_groups                            = "${var.use_server_groups}"
+  despegar_k8s_nodes                           = "${var.despegar_k8s_nodes}"
 
   network_id = "${module.network.router_id}"
 }
