@@ -4,7 +4,7 @@ resource "openstack_compute_instance_v2" "k8s_despegar_node" {
   availability_zone = "${element(var.az_list_node, count.index)}"
   image_name        = "${var.image}"
   flavor_id         = "${var.flavor_k8s_node}"
-  key_pair          = "${openstack_compute_keypair_v2.k8s.name}"
+  key_pair          = "${var.key_pair}"
 
   dynamic "block_device" {
     for_each = var.node_root_volume_size_in_gb > 0 ? [var.image] : []
@@ -22,16 +22,7 @@ resource "openstack_compute_instance_v2" "k8s_despegar_node" {
     name = "${var.network_name}"
   }
 
-  security_groups = ["${openstack_networking_secgroup_v2.k8s.name}",
-    "${openstack_networking_secgroup_v2.worker.name}",
-  ]
-
-  dynamic "scheduler_hints" {
-    for_each = var.use_server_groups ? [openstack_compute_servergroup_v2.k8s_node[0]] : []
-    content {
-      group = "${openstack_compute_servergroup_v2.k8s_node[0].id}"
-    }
-  }
+  security_groups = var.secgroups
 
   metadata = {
     ssh_user         = "${var.ssh_user}"
@@ -39,4 +30,5 @@ resource "openstack_compute_instance_v2" "k8s_despegar_node" {
     depends_on       = "${var.network_id}"
     use_access_ip    = "${var.use_access_ip}"
   }
+
 }
