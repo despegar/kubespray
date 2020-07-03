@@ -325,10 +325,12 @@ resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip" {
   }
 
   metadata = {
-    ssh_user         = "${var.ssh_user}"
-    kubespray_groups = "etcd,kube-master,${var.supplementary_master_groups},k8s-cluster,vault,no-floating"
-    depends_on       = "${var.network_id}"
-    use_access_ip    = "${var.use_access_ip}"
+    ssh_user                 = "${var.ssh_user}"
+    kubespray_groups         = "etcd,kube-master,${var.supplementary_master_groups},k8s-cluster,vault,no-floating"
+    depends_on               = "${var.network_id}"
+    use_access_ip            = "${var.use_access_ip}"
+    kube_service_addresses   = "${var.kube_service_addresses}"
+    kube_pods_subnet         = "${var.kube_pods_subnet}"
   }
 }
 

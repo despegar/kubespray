@@ -234,3 +234,11 @@ variable "despegar_k8s_nodes" {
   type    = "map"
   default = {}
 }
+
+variable "kube_service_addresses" {
+  default = ""
+}
+
+variable "kube_pods_subnet" {
+  default = ""
+}

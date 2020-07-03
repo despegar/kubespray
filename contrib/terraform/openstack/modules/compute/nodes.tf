@@ -16,6 +16,8 @@ module "nodes_type1" {
   key_pair                                     = "${openstack_compute_keypair_v2.k8s.name}"
   secgroups                                    = ["${openstack_networking_secgroup_v2.k8s.name}", "${openstack_networking_secgroup_v2.worker.name}"]
   supplementary_node_groups                    = "${var.supplementary_node_groups}"
+  kube_service_addresses                       = "${var.kube_service_addresses}"
+  kube_pods_subnet                             = "${var.kube_pods_subnet}"
 }
 
 module "nodes_type2" {
@@ -36,6 +38,8 @@ module "nodes_type2" {
   key_pair                                     = "${openstack_compute_keypair_v2.k8s.name}"
   secgroups                                    = ["${openstack_networking_secgroup_v2.k8s.name}", "${openstack_networking_secgroup_v2.worker.name}"]
   supplementary_node_groups                    = "${var.supplementary_node_groups}"
+  kube_service_addresses                       = "${var.kube_service_addresses}"
+  kube_pods_subnet                             = "${var.kube_pods_subnet}"
 }
 
 module "nodes_type3" {
@@ -56,6 +60,8 @@ module "nodes_type3" {
   key_pair                                     = "${openstack_compute_keypair_v2.k8s.name}"
   secgroups                                    = ["${openstack_networking_secgroup_v2.k8s.name}", "${openstack_networking_secgroup_v2.worker.name}"]
   supplementary_node_groups                    = "${var.supplementary_node_groups}"
+  kube_service_addresses                       = "${var.kube_service_addresses}"
+  kube_pods_subnet                             = "${var.kube_pods_subnet}"
 }
 
 module "nodes_type4" {
@@ -76,6 +82,8 @@ module "nodes_type4" {
   key_pair                                     = "${openstack_compute_keypair_v2.k8s.name}"
   secgroups                                    = ["${openstack_networking_secgroup_v2.k8s.name}", "${openstack_networking_secgroup_v2.worker.name}"]
   supplementary_node_groups                    = "${var.supplementary_node_groups}"
+  kube_service_addresses                       = "${var.kube_service_addresses}"
+  kube_pods_subnet                             = "${var.kube_pods_subnet}"
 }
 
 module "nodes_type5" {
@@ -96,6 +104,8 @@ module "nodes_type5" {
   key_pair                                     = "${openstack_compute_keypair_v2.k8s.name}"
   secgroups                                    = ["${openstack_networking_secgroup_v2.k8s.name}", "${openstack_networking_secgroup_v2.worker.name}"]
   supplementary_node_groups                    = "${var.supplementary_node_groups}"
+  kube_service_addresses                       = "${var.kube_service_addresses}"
+  kube_pods_subnet                             = "${var.kube_pods_subnet}"
 }
 
 module "nodes_type6" {
@@ -116,6 +126,8 @@ module "nodes_type6" {
   key_pair                                     = "${openstack_compute_keypair_v2.k8s.name}"
   secgroups                                    = ["${openstack_networking_secgroup_v2.k8s.name}", "${openstack_networking_secgroup_v2.worker.name}"]
   supplementary_node_groups                    = "${var.supplementary_node_groups}"
+  kube_service_addresses                       = "${var.kube_service_addresses}"
+  kube_pods_subnet                             = "${var.kube_pods_subnet}"
 }
 
 module "nodes_type7" {
@@ -136,6 +148,8 @@ module "nodes_type7" {
   key_pair                                     = "${openstack_compute_keypair_v2.k8s.name}"
   secgroups                                    = ["${openstack_networking_secgroup_v2.k8s.name}", "${openstack_networking_secgroup_v2.worker.name}"]
   supplementary_node_groups                    = "${var.supplementary_node_groups}"
+  kube_service_addresses                       = "${var.kube_service_addresses}"
+  kube_pods_subnet                             = "${var.kube_pods_subnet}"
 }
 
 module "nodes_type8" {
@@ -156,4 +170,6 @@ module "nodes_type8" {
   key_pair                                     = "${openstack_compute_keypair_v2.k8s.name}"
   secgroups                                    = ["${openstack_networking_secgroup_v2.k8s.name}", "${openstack_networking_secgroup_v2.worker.name}"]
   supplementary_node_groups                    = "${var.supplementary_node_groups}"
+  kube_service_addresses                       = "${var.kube_service_addresses}"
+  kube_pods_subnet                             = "${var.kube_pods_subnet}"
 }

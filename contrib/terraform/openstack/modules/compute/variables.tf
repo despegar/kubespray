@@ -125,3 +125,7 @@ variable "use_server_groups" {
 variable "despegar_k8s_nodes" {
   type = "map"
 }
+
+variable "kube_service_addresses" {}
+
+variable "kube_pods_subnet" {}
