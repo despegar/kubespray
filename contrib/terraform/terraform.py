@@ -318,6 +318,9 @@ def openstack_host(resource, module_name):
 
     if 'all_metadata.TOR' in raw_attrs:
         attrs['local_tor'] = raw_attrs['all_metadata.TOR']
+
+    if 'all_metadata.TOR_BKP' in raw_attrs:
+        attrs['local_tor_bkp'] = raw_attrs['all_metadata.TOR_BKP']
     ###########################################
 
     # attrs specific to Ansible
