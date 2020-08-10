@@ -34,4 +34,4 @@
   delay: "{{ retry_stagger | random + 3 }}"
   when:
     - not peer_with_router|default(false)
-    - local_tor_bkp is defined
+    - local_tor_bkp|length > 0
