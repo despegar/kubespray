@@ -307,7 +307,7 @@ resource "openstack_compute_instance_v2" "etcd" {
 }
 
 resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip" {
-  name              = "${var.cluster_name}-k8s-master-nf-${count.index + 1}"
+  name              = "${var.cluster_name}-master-${count.index + 1}"
   count             = "${var.number_of_k8s_masters_no_floating_ip}"
   availability_zone = "${element(var.az_list, count.index)}"
   image_name        = "${var.image}"
