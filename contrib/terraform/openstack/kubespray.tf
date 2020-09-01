@@ -80,6 +80,7 @@ module "compute" {
   despegar_k8s_nodes                           = "${var.despegar_k8s_nodes}"
   kube_service_addresses                       = "${var.kube_service_addresses}"
   kube_pods_subnet                             = "${var.kube_pods_subnet}"
+  cluster_domain                               = "${var.cluster_domain}"
 
   network_id = "${module.network.router_id}"
 }

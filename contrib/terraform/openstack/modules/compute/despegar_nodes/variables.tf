@@ -2,6 +2,8 @@ variable "node_type" {}
 
 variable "cluster_name" {}
 
+variable "cluster_domain" {}
+
 variable "az_list" {
   type = list(string)
 }

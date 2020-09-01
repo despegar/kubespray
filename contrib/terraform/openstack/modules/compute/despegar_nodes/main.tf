@@ -1,3 +1,11 @@
+data "template_file" "user_data" {
+  template = file("${path.module}/despegar_nodes/user-data.tpl")
+
+  vars = {
+    cluster_domain = var.cluster_domain
+  }
+}
+
 resource "openstack_compute_instance_v2" "k8s_despegar_node" {
   name              = "${var.cluster_name}-node-${var.node_type}-${count.index + 1}"
   count             = "${var.number_of_k8s_nodes}"
@@ -23,6 +31,8 @@ resource "openstack_compute_instance_v2" "k8s_despegar_node" {
   }
 
   security_groups = var.secgroups
+
+  user_data = data.template_file.user_data.rendered
 
   metadata = {
     ssh_user                 = "${var.ssh_user}"

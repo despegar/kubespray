@@ -129,3 +129,5 @@ variable "despegar_k8s_nodes" {
 variable "kube_service_addresses" {}
 
 variable "kube_pods_subnet" {}
+
+variable "cluster_domain" {}

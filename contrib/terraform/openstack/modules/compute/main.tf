@@ -306,6 +306,14 @@ resource "openstack_compute_instance_v2" "etcd" {
   }
 }
 
+data "template_file" "user_data" {
+  template = file("${path.module}/despegar_nodes/user-data.tpl")
+
+  vars = {
+    cluster_domain = var.cluster_domain
+  }
+}
+
 resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip" {
   name              = "${var.cluster_name}-master-${count.index + 1}"
   count             = "${var.number_of_k8s_masters_no_floating_ip}"
@@ -340,6 +348,9 @@ resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip" {
       group = "${openstack_compute_servergroup_v2.k8s_master[0].id}"
     }
   }
+
+  # despegar fix
+  user_data = data.template_file.user_data.rendered
 
   metadata = {
     ssh_user                 = "${var.ssh_user}"
