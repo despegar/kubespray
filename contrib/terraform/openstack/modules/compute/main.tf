@@ -351,6 +351,9 @@ resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip" {
 
   # despegar fix
   user_data = data.template_file.user_data.rendered
+  lifecycle {
+    ignore_changes = [ user_data ]
+  }
 
   metadata = {
     ssh_user                 = "${var.ssh_user}"
