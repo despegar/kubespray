@@ -355,6 +355,28 @@ resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip" {
     ignore_changes = [ user_data ]
   }
 
+  # despegar fix
+  provisioner "local-exec" {
+    command = <<EOT
+      echo 'server 10.1.1.68
+        zone ${var.cluster_domain}
+        update delete ${self.name}.${var.cluster_domain}. A
+        update add    ${self.name}.${var.cluster_domain}. 60 IN A ${self.access_ip_v4}
+        send' | /usr/bin/nsupdate -g
+    EOT
+  }
+
+  # despegar fix
+  provisioner "local-exec" {
+    when    = destroy
+    command = <<EOT
+      echo 'server 10.1.1.68
+        zone ${var.cluster_domain}
+        update delete ${self.name}.${var.cluster_domain}. A
+        send' | /usr/bin/nsupdate -g
+    EOT
+  }
+
   metadata = {
     ssh_user                 = "${var.ssh_user}"
     kubespray_groups         = "etcd,kube-master,${var.supplementary_master_groups},k8s-cluster,vault,no-floating"
