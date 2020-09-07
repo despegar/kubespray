@@ -64,7 +64,7 @@ resource "openstack_networking_secgroup_rule_v2" "k8s_ntp" {
   remote_ip_prefix  = "${var.k8s_allowed_remote_ips[count.index]}"
   security_group_id = "${openstack_networking_secgroup_v2.k8s.id}"
 }
-resource "openstack_networking_secgroup_rule_v2" "k8s_ntp" {
+resource "openstack_networking_secgroup_rule_v2" "k8s_ntp_e" {
   count             = "${length(var.k8s_allowed_remote_ips)}"
   direction         = "egress"
   ethertype         = "IPv4"
