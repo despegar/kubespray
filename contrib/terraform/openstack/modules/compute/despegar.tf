@@ -52,3 +52,15 @@ resource "openstack_networking_secgroup_rule_v2" "k8s_snmp" {
   remote_ip_prefix  = "${var.k8s_allowed_remote_ips[count.index]}"
   security_group_id = "${openstack_networking_secgroup_v2.k8s.id}"
 }
+
+# allow NTP from nagios
+resource "openstack_networking_secgroup_rule_v2" "k8s_ntp" {
+  count             = "${length(var.k8s_allowed_remote_ips)}"
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "udp"
+  port_range_min    = 123
+  port_range_max    = 123
+  remote_ip_prefix  = "${var.k8s_allowed_remote_ips[count.index]}"
+  security_group_id = "${openstack_networking_secgroup_v2.k8s.id}"
+}
