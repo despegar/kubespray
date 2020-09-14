@@ -27,6 +27,7 @@ from functools import wraps
 import json
 import os
 import re
+import subprocess
 
 VERSION = '0.4.0pre'
 
@@ -37,6 +38,14 @@ def tfstates(root=None):
         for name in filenames:
             if os.path.splitext(name)[-1] == '.tfstate':
                 yield os.path.join(dirpath, name)
+
+def pullstate(remove=False):
+    if os.path.exists(os.path.join(os.getcwd(), '.terraform/terraform.tfstate')):
+        file = os.path.join(os.getcwd(), 'remote.tfstate')
+        if remove:
+            os.remove(file)
+        else:
+            subprocess.call(['terraform', 'state','pull'], stdout=open(file, 'w'))
 
 def convert_to_v3_structure(attributes, prefix=''):
     """ Convert the attributes from v4 to v3
@@ -453,6 +462,7 @@ def main():
         print('%s %s' % (__file__, VERSION))
         parser.exit()
 
+    pullstate()
     hosts = iterhosts(iterresources(tfstates(args.root)))
 
     # Perform a second pass on the file to pick up floating_ip entries to update the ip address of referenced hosts
@@ -473,6 +483,7 @@ def main():
         output = query_hostfile(hosts)
         print(output)
 
+    pullstate(remove=True)
     parser.exit()
 
 
