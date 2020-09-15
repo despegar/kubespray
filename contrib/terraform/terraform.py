@@ -40,12 +40,13 @@ def tfstates(root=None):
                 yield os.path.join(dirpath, name)
 
 def pullstate(remove=False):
-    if os.path.exists(os.path.join(os.getcwd(), '.terraform/terraform.tfstate')):
-        file = os.path.join(os.getcwd(), 'remote.tfstate')
+    dir=os.path.dirname(os.path.abspath(__file__))
+    if os.path.exists(os.path.join(dir, '.terraform/terraform.tfstate')):
+        file = os.path.join(dir, 'remote.tfstate')
         if remove:
             os.remove(file)
         else:
-            subprocess.call(['terraform', 'state','pull'], stdout=open(file, 'w'))
+            subprocess.call(['terraform', 'state','pull'], stdout=open(file, 'w'), cwd=dir)
 
 def convert_to_v3_structure(attributes, prefix=''):
     """ Convert the attributes from v4 to v3
