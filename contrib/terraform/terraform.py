@@ -333,9 +333,13 @@ def openstack_host(resource, module_name):
         attrs['local_tor_bkp'] = raw_attrs['all_metadata.TOR_BKP']
     ###########################################
 
+    ###########################################
+    # despegar fix
+    # avoid using hardcoded and generic user in inventory
+    ###########################################
     # attrs specific to Ansible
-    if 'metadata.ssh_user' in raw_attrs:
-        attrs['ansible_ssh_user'] = raw_attrs['metadata.ssh_user']
+    #if 'metadata.ssh_user' in raw_attrs:
+    #    attrs['ansible_ssh_user'] = raw_attrs['metadata.ssh_user']
 
     if 'volume.#' in list(raw_attrs.keys()) and int(raw_attrs['volume.#']) > 0:
         device_index = 1
