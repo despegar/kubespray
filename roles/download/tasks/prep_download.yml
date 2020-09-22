@@ -96,7 +96,8 @@
   delegate_to: localhost
   delegate_facts: no
   run_once: true
-  become: false
+  # despegar fix
+  become: true
   when:
     - download_force_cache
   tags:
