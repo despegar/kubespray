@@ -80,9 +80,9 @@
     path: "{{ local_release_dir }}/images"
     state: directory
     recurse: yes
-    # despegar fix
+    # despegar fix: evitamos que se crucen los uid/gid de diferentes usuarios ansible
     mode: 0777
-    owner: "{{ ansible_ssh_user | default(ansible_user_id) }}"
+    owner: "root"
   when:
     - ansible_os_family not in ["CoreOS", "Coreos", "Container Linux by CoreOS", "Flatcar", "Flatcar Container Linux by Kinvolk"]
 
