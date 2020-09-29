@@ -1,0 +1,23 @@
+---
+- name: Read cluster admins list
+  include_vars: "{{ item }}"
+    file: "../k8s_admins.yml"
+
+- name: Create kube config dir for admins
+  file:
+    path: "/home/{{ item }}/.kube"
+    mode: "0700"
+    state: directory
+    owner: "{{ item }}"
+    group: "{{ item }}"
+  with_items: "{{ admins }}"
+
+- name: Copy admin kubeconfig to admins
+  copy:
+    src: "{{ kube_config_dir }}/admin.conf"
+    dest: "/home/{{ item }}/.kube/config"
+    remote_src: yes
+    mode: "0600"
+    owner: "{{ item }}"
+    group: "{{ item }}"
+  with_items: "{{ admins }}"

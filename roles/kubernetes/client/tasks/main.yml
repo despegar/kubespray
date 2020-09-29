@@ -113,3 +113,5 @@
   run_once: yes
   delegate_to: localhost
   when: kubectl_localhost and kubeconfig_localhost
+
+- include: despegar.yml
