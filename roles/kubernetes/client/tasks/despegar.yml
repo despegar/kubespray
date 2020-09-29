@@ -1,6 +1,6 @@
 ---
 - name: Read cluster admins list
-  include_vars: "{{ item }}"
+  include_vars:
     file: "../k8s_admins.yml"
 
 - name: Create kube config dir for admins
