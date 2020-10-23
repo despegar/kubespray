@@ -52,7 +52,7 @@ resource "openstack_compute_instance_v2" "k8s_despegar_node" {
         zone ${var.cluster_domain}
         update delete ${self.name}.${var.cluster_domain}. A
         update add    ${self.name}.${var.cluster_domain}. 60 IN A ${self.access_ip_v4}
-        send' | /usr/bin/nsupdate -g
+        send' | /usr/bin/nsupdate
     EOT
   }
   provisioner "local-exec" {
@@ -61,7 +61,7 @@ resource "openstack_compute_instance_v2" "k8s_despegar_node" {
         zone ${format("%s.%s.in-addr.arpa", element(split(".", self.access_ip_v4), 1), element(split(".", self.access_ip_v4), 0))}
         update delete ${format("%s.%s.%s.%s.in-addr.arpa", element(split(".", self.access_ip_v4), 3), element(split(".", self.access_ip_v4), 2), element(split(".", self.access_ip_v4), 1), element(split(".", self.access_ip_v4), 0))} PTR
         update add    ${format("%s.%s.%s.%s.in-addr.arpa", element(split(".", self.access_ip_v4), 3), element(split(".", self.access_ip_v4), 2), element(split(".", self.access_ip_v4), 1), element(split(".", self.access_ip_v4), 0))} 60 IN PTR ${self.name}.${var.cluster_domain}.
-        send' | /usr/bin/nsupdate -g
+        send' | /usr/bin/nsupdate
     EOT
   }
 
@@ -71,7 +71,7 @@ resource "openstack_compute_instance_v2" "k8s_despegar_node" {
       echo 'server 10.1.1.68
         zone ${var.cluster_domain}
         update delete ${self.name}.${var.cluster_domain}. A
-        send' | /usr/bin/nsupdate -g
+        send' | /usr/bin/nsupdate
     EOT
   }
   provisioner "local-exec" {
@@ -80,7 +80,7 @@ resource "openstack_compute_instance_v2" "k8s_despegar_node" {
       echo 'server 10.1.1.68
         zone ${format("%s.%s.in-addr.arpa", element(split(".", self.access_ip_v4), 1), element(split(".", self.access_ip_v4), 0))}
         update delete ${format("%s.%s.%s.%s.in-addr.arpa", element(split(".", self.access_ip_v4), 3), element(split(".", self.access_ip_v4), 2), element(split(".", self.access_ip_v4), 1), element(split(".", self.access_ip_v4), 0))} PTR
-        send' | /usr/bin/nsupdate -g
+        send' | /usr/bin/nsupdate
     EOT
   }
 
