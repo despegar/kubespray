@@ -346,7 +346,7 @@ resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip" {
         zone ${format("%s.%s.in-addr.arpa", element(split(".", self.access_ip_v4), 1), element(split(".", self.access_ip_v4), 0))}
         update delete ${format("%s.%s.%s.%s.in-addr.arpa", element(split(".", self.access_ip_v4), 3), element(split(".", self.access_ip_v4), 2), element(split(".", self.access_ip_v4), 1), element(split(".", self.access_ip_v4), 0))} PTR
         update add    ${format("%s.%s.%s.%s.in-addr.arpa", element(split(".", self.access_ip_v4), 3), element(split(".", self.access_ip_v4), 2), element(split(".", self.access_ip_v4), 1), element(split(".", self.access_ip_v4), 0))} 60 IN PTR ${self.name}.${var.cluster_domain}.
-        send' | /usr/bin/nsupdate
+        send' | /usr/bin/nsupdate -g
     EOT
   }
 
@@ -366,7 +366,7 @@ resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip" {
       echo 'server 10.1.1.68
         zone ${format("%s.%s.in-addr.arpa", element(split(".", self.access_ip_v4), 1), element(split(".", self.access_ip_v4), 0))}
         update delete ${format("%s.%s.%s.%s.in-addr.arpa", element(split(".", self.access_ip_v4), 3), element(split(".", self.access_ip_v4), 2), element(split(".", self.access_ip_v4), 1), element(split(".", self.access_ip_v4), 0))} PTR
-        send' | /usr/bin/nsupdate
+        send' | /usr/bin/nsupdate -g
     EOT
   }
 
