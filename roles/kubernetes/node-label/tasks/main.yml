@@ -28,6 +28,14 @@
   set_fact:
     role_node_labels: "{{ role_node_labels + [ 'despegar.com/flavor=%s'|format(flavor.name) ] }}"
 
+# despegar fix
+- name: Node label for OpenStack flavor with LVM
+  set_fact:
+    role_node_labels: "{{ role_node_labels + [ 'despegar.com/lvm=true' ] }}"
+  when:
+    - ".db." in flavor.name
+    - ".eph." in flavor.name
+
 - name: Set inventory node label to empty list
   set_fact:
     inventory_node_labels: []
