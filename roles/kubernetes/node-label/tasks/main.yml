@@ -26,7 +26,7 @@
 # despegar fix
 - name: Node label for OpenStack flavor
   set_fact:
-    role_node_labels: "{{ role_node_labels }} + [ 'despegar.com/flavor=%s'|format(flavor.name) ] }}"
+    role_node_labels: "{{ role_node_labels + [ 'despegar.com/flavor=%s'|format(flavor.name) ] }}"
 
 - name: Set inventory node label to empty list
   set_fact:
