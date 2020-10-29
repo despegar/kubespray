@@ -33,8 +33,7 @@
   set_fact:
     role_node_labels: "{{ role_node_labels + [ 'despegar.com/lvm=true' ] }}"
   when:
-    - '".db." in flavor.name'
-    - '".eph." in flavor.name'
+    - '".db." in flavor.name or ".eph." in flavor.name'
 
 - name: Set inventory node label to empty list
   set_fact:
