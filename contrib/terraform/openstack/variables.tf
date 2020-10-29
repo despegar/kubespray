@@ -231,8 +231,8 @@ variable "k8s_nodes" {
 }
 
 variable "despegar_k8s_nodes" {
-  type    = "map"
-  default = {}
+  type    = "list"
+  default = []
 }
 
 variable "kube_service_addresses" {

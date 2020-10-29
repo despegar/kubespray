@@ -123,7 +123,7 @@ variable "use_server_groups" {
 }
 
 variable "despegar_k8s_nodes" {
-  type = "map"
+  type = "list"
 }
 
 variable "kube_service_addresses" {}
