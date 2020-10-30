@@ -38,7 +38,6 @@ module "compute" {
   number_of_k8s_masters                        = "${var.number_of_k8s_masters}"
   number_of_k8s_masters_no_etcd                = "${var.number_of_k8s_masters_no_etcd}"
   number_of_etcd                               = "${var.number_of_etcd}"
-  offset_masters                               = "${var.offset_masters}"
   number_of_k8s_masters_no_floating_ip         = "${var.number_of_k8s_masters_no_floating_ip}"
   number_of_k8s_masters_no_floating_ip_no_etcd = "${var.number_of_k8s_masters_no_floating_ip_no_etcd}"
   number_of_k8s_nodes                          = "${var.number_of_k8s_nodes}"
