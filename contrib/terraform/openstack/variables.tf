@@ -34,6 +34,11 @@ variable "number_of_k8s_masters_no_floating_ip" {
   default = 2
 }
 
+# despegar fix
+variable "offset_masters" {
+  default = 0
+}
+
 variable "number_of_k8s_masters_no_floating_ip_no_etcd" {
   default = 2
 }

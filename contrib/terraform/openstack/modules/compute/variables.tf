@@ -16,6 +16,8 @@ variable "number_of_etcd" {}
 
 variable "number_of_k8s_masters_no_floating_ip" {}
 
+variable "offset_masters" {}
+
 variable "number_of_k8s_masters_no_floating_ip_no_etcd" {}
 
 variable "number_of_k8s_nodes" {}
