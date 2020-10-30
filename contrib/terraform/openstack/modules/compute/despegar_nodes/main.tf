@@ -1,3 +1,27 @@
+resource "null_resource" "dns_updater_probe" {
+ triggers = {
+    always_run = "${timestamp()}"
+  }
+  provisioner "local-exec" {
+    command = <<EOT
+      echo 'server 10.1.1.68
+        zone ${var.cluster_domain}
+        update add    ${var.cluster_name}-dnsprobe.${var.cluster_domain}. 60 IN A 10.184.0.0
+        update delete ${var.cluster_name}-dnsprobe.${var.cluster_domain}. A
+        send' | /usr/bin/nsupdate
+    EOT
+  }
+  provisioner "local-exec" {
+    command = <<EOT
+      echo 'server 10.1.1.68
+        zone 184.10.in-addr.arpa
+        update add    0.0.184.10.in-addr.arpa 60 IN PTR ${var.cluster_name}-dnsprobe.${var.cluster_domain}.
+        update delete 0.0.184.10.in-addr.arpa PTR
+        send' | /usr/bin/nsupdate -g
+    EOT
+  }
+}
+
 data "template_file" "user_data" {
   template = file("${path.module}/user-data.tpl")
 
@@ -13,6 +37,8 @@ resource "openstack_compute_instance_v2" "k8s_despegar_node" {
   image_name        = "${var.image}"
   flavor_id         = "${var.flavor_k8s_node}"
   key_pair          = "${var.key_pair}"
+
+  depends_on = [ null_resource.dns_updater_probe ]
 
   dynamic "block_device" {
     for_each = var.node_root_volume_size_in_gb > 0 ? [var.image] : []
