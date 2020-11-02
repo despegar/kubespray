@@ -34,7 +34,7 @@ variable "key_pair" {}
 
 variable "secgroups" {}
 
-variable "supplementary_node_groups" {}
+variable "supplementary_master_groups" {}
 
 variable "kube_service_addresses" {}
 

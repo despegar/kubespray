@@ -15,7 +15,7 @@ module "master_index1" {
   use_access_ip                                = "${var.use_access_ip}"
   key_pair                                     = "${openstack_compute_keypair_v2.k8s.name}"
   secgroups                                    = ["${openstack_networking_secgroup_v2.k8s.name}", "${openstack_networking_secgroup_v2.k8s_master.name}" ]
-  supplementary_node_groups                    = "${var.supplementary_node_groups}"
+  supplementary_master_groups                  = "${var.supplementary_master_groups}"
   kube_service_addresses                       = "${var.kube_service_addresses}"
   kube_pods_subnet                             = "${var.kube_pods_subnet}"
   cluster_domain                               = "${var.cluster_domain}"
@@ -38,7 +38,7 @@ module "master_index2" {
   use_access_ip                                = "${var.use_access_ip}"
   key_pair                                     = "${openstack_compute_keypair_v2.k8s.name}"
   secgroups                                    = ["${openstack_networking_secgroup_v2.k8s.name}", "${openstack_networking_secgroup_v2.k8s_master.name}" ]
-  supplementary_node_groups                    = "${var.supplementary_node_groups}"
+  supplementary_master_groups                  = "${var.supplementary_master_groups}"
   kube_service_addresses                       = "${var.kube_service_addresses}"
   kube_pods_subnet                             = "${var.kube_pods_subnet}"
   cluster_domain                               = "${var.cluster_domain}"
@@ -61,7 +61,7 @@ module "master_index3" {
   use_access_ip                                = "${var.use_access_ip}"
   key_pair                                     = "${openstack_compute_keypair_v2.k8s.name}"
   secgroups                                    = ["${openstack_networking_secgroup_v2.k8s.name}", "${openstack_networking_secgroup_v2.k8s_master.name}" ]
-  supplementary_node_groups                    = "${var.supplementary_node_groups}"
+  supplementary_master_groups                  = "${var.supplementary_master_groups}"
   kube_service_addresses                       = "${var.kube_service_addresses}"
   kube_pods_subnet                             = "${var.kube_pods_subnet}"
   cluster_domain                               = "${var.cluster_domain}"
@@ -84,7 +84,7 @@ module "master_index4" {
   use_access_ip                                = "${var.use_access_ip}"
   key_pair                                     = "${openstack_compute_keypair_v2.k8s.name}"
   secgroups                                    = ["${openstack_networking_secgroup_v2.k8s.name}", "${openstack_networking_secgroup_v2.k8s_master.name}" ]
-  supplementary_node_groups                    = "${var.supplementary_node_groups}"
+  supplementary_master_groups                  = "${var.supplementary_master_groups}"
   kube_service_addresses                       = "${var.kube_service_addresses}"
   kube_pods_subnet                             = "${var.kube_pods_subnet}"
   cluster_domain                               = "${var.cluster_domain}"
@@ -107,7 +107,7 @@ module "master_index5" {
   use_access_ip                                = "${var.use_access_ip}"
   key_pair                                     = "${openstack_compute_keypair_v2.k8s.name}"
   secgroups                                    = ["${openstack_networking_secgroup_v2.k8s.name}", "${openstack_networking_secgroup_v2.k8s_master.name}" ]
-  supplementary_node_groups                    = "${var.supplementary_node_groups}"
+  supplementary_master_groups                  = "${var.supplementary_master_groups}"
   kube_service_addresses                       = "${var.kube_service_addresses}"
   kube_pods_subnet                             = "${var.kube_pods_subnet}"
   cluster_domain                               = "${var.cluster_domain}"
@@ -130,7 +130,7 @@ module "master_index6" {
   use_access_ip                                = "${var.use_access_ip}"
   key_pair                                     = "${openstack_compute_keypair_v2.k8s.name}"
   secgroups                                    = ["${openstack_networking_secgroup_v2.k8s.name}", "${openstack_networking_secgroup_v2.k8s_master.name}" ]
-  supplementary_node_groups                    = "${var.supplementary_node_groups}"
+  supplementary_master_groups                  = "${var.supplementary_master_groups}"
   kube_service_addresses                       = "${var.kube_service_addresses}"
   kube_pods_subnet                             = "${var.kube_pods_subnet}"
   cluster_domain                               = "${var.cluster_domain}"
@@ -153,7 +153,7 @@ module "master_index7" {
   use_access_ip                                = "${var.use_access_ip}"
   key_pair                                     = "${openstack_compute_keypair_v2.k8s.name}"
   secgroups                                    = ["${openstack_networking_secgroup_v2.k8s.name}", "${openstack_networking_secgroup_v2.k8s_master.name}" ]
-  supplementary_node_groups                    = "${var.supplementary_node_groups}"
+  supplementary_master_groups                  = "${var.supplementary_master_groups}"
   kube_service_addresses                       = "${var.kube_service_addresses}"
   kube_pods_subnet                             = "${var.kube_pods_subnet}"
   cluster_domain                               = "${var.cluster_domain}"
@@ -176,7 +176,7 @@ module "master_index8" {
   use_access_ip                                = "${var.use_access_ip}"
   key_pair                                     = "${openstack_compute_keypair_v2.k8s.name}"
   secgroups                                    = ["${openstack_networking_secgroup_v2.k8s.name}", "${openstack_networking_secgroup_v2.k8s_master.name}" ]
-  supplementary_node_groups                    = "${var.supplementary_node_groups}"
+  supplementary_master_groups                  = "${var.supplementary_master_groups}"
   kube_service_addresses                       = "${var.kube_service_addresses}"
   kube_pods_subnet                             = "${var.kube_pods_subnet}"
   cluster_domain                               = "${var.cluster_domain}"
