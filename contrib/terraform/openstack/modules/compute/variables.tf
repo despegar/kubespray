@@ -126,6 +126,10 @@ variable "despegar_k8s_nodes" {
   type = "list"
 }
 
+variable "despegar_k8s_masters" {
+  type = "list"
+}
+
 variable "kube_service_addresses" {}
 
 variable "kube_pods_subnet" {}

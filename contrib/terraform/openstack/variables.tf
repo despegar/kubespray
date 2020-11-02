@@ -235,6 +235,11 @@ variable "despegar_k8s_nodes" {
   default = []
 }
 
+variable "despegar_k8s_masters" {
+  type    = "list"
+  default = []
+}
+
 variable "kube_service_addresses" {
   default = ""
 }
