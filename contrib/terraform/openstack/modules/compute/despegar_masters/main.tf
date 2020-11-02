@@ -1,3 +1,11 @@
+data "template_file" "user_data" {
+  template = file("${path.module}/../despegar_nodes/user-data.tpl")
+
+  vars = {
+    cluster_domain = var.cluster_domain
+  }
+}
+
 resource "openstack_compute_instance_v2" "k8s_despegar_master" {
   name              = "${var.cluster_name}-master-${var.master_index}"
   count             = "${var.number_of_k8s_masters}"
