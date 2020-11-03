@@ -417,6 +417,8 @@ def query_list(hosts):
 
             groups[group].setdefault('hosts', [])
             groups[group]['hosts'].append(name)
+            # despegar fix
+            groups[group]['hosts'].sort()
 
         meta[name] = attrs
 

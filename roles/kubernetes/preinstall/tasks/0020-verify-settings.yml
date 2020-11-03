@@ -56,12 +56,14 @@
     - { name: openstack_lbaas_enabled, value: "{{ openstack_lbaas_enabled }}" }
   when: not ignore_assert_errors
 
-- name: Stop if even number of etcd hosts
-  assert:
-    that: groups.etcd|length is not divisibleby 2
-  when:
-    - not ignore_assert_errors
-    - inventory_hostname in groups['etcd']
+  # despegar fix
+  # para poder eliminar nodos caidos temporalmente
+  #- name: Stop if even number of etcd hosts
+  #  assert:
+  #    that: groups.etcd|length is not divisibleby 2
+  #  when:
+  #    - not ignore_assert_errors
+  #    - inventory_hostname in groups['etcd']
 
 - name: Stop if memory is too small for masters
   assert:
