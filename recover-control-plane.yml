@@ -33,4 +33,4 @@
 - hosts: "{{ groups['kube-master'] }}"
   roles:
     - { role: kubespray-defaults}
-    - { role: recover_control_plane/post-recover }
+    - { role: recover_control_plane/post-recover, tags: "fix-apiserver" }
