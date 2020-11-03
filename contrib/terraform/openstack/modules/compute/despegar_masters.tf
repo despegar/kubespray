@@ -1,7 +1,7 @@
-module "master_index1" {
+module "master_node1" {
   source = "./despegar_masters"
 
-  master_index                                   = "1"
+  master_index                                 = "${var.despegar_k8s_masters[0]["index"]}"
   cluster_name                                 = "${var.cluster_name}"
   az_list                                      = "${var.az_list}"
   az_list_node                                 = "${var.az_list_node}"
@@ -21,10 +21,10 @@ module "master_index1" {
   cluster_domain                               = "${var.cluster_domain}"
 }
 
-module "master_index2" {
+module "master_node2" {
   source = "./despegar_masters"
 
-  master_index                                   = "2"
+  master_index                                 = "${var.despegar_k8s_masters[1]["index"]}"
   cluster_name                                 = "${var.cluster_name}"
   az_list                                      = "${var.az_list}"
   az_list_node                                 = "${var.az_list_node}"
@@ -44,10 +44,10 @@ module "master_index2" {
   cluster_domain                               = "${var.cluster_domain}"
 }
 
-module "master_index3" {
+module "master_node3" {
   source = "./despegar_masters"
 
-  master_index                                   = "3"
+  master_index                                 = "${var.despegar_k8s_masters[2]["index"]}"
   cluster_name                                 = "${var.cluster_name}"
   az_list                                      = "${var.az_list}"
   az_list_node                                 = "${var.az_list_node}"
@@ -67,10 +67,10 @@ module "master_index3" {
   cluster_domain                               = "${var.cluster_domain}"
 }
 
-module "master_index4" {
+module "master_node4" {
   source = "./despegar_masters"
 
-  master_index                                   = "4"
+  master_index                                 = "${var.despegar_k8s_masters[3]["index"]}"
   cluster_name                                 = "${var.cluster_name}"
   az_list                                      = "${var.az_list}"
   az_list_node                                 = "${var.az_list_node}"
@@ -90,10 +90,10 @@ module "master_index4" {
   cluster_domain                               = "${var.cluster_domain}"
 }
 
-module "master_index5" {
+module "master_node5" {
   source = "./despegar_masters"
 
-  master_index                                   = "5"
+  master_index                                 = "${var.despegar_k8s_masters[4]["index"]}"
   cluster_name                                 = "${var.cluster_name}"
   az_list                                      = "${var.az_list}"
   az_list_node                                 = "${var.az_list_node}"
@@ -113,10 +113,10 @@ module "master_index5" {
   cluster_domain                               = "${var.cluster_domain}"
 }
 
-module "master_index6" {
+module "master_node6" {
   source = "./despegar_masters"
 
-  master_index                                   = "6"
+  master_index                                 = "${var.despegar_k8s_masters[5]["index"]}"
   cluster_name                                 = "${var.cluster_name}"
   az_list                                      = "${var.az_list}"
   az_list_node                                 = "${var.az_list_node}"
@@ -136,10 +136,10 @@ module "master_index6" {
   cluster_domain                               = "${var.cluster_domain}"
 }
 
-module "master_index7" {
+module "master_node7" {
   source = "./despegar_masters"
 
-  master_index                                   = "7"
+  master_index                                 = "${var.despegar_k8s_masters[6]["index"]}"
   cluster_name                                 = "${var.cluster_name}"
   az_list                                      = "${var.az_list}"
   az_list_node                                 = "${var.az_list_node}"
@@ -159,10 +159,10 @@ module "master_index7" {
   cluster_domain                               = "${var.cluster_domain}"
 }
 
-module "master_index8" {
+module "master_node8" {
   source = "./despegar_masters"
 
-  master_index                                   = "8"
+  master_index                                 = "${var.despegar_k8s_masters[7]["index"]}"
   cluster_name                                 = "${var.cluster_name}"
   az_list                                      = "${var.az_list}"
   az_list_node                                 = "${var.az_list_node}"
