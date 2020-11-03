@@ -12,8 +12,6 @@ variable "az_list_node" {
   type = list(string)
 }
 
-variable "master_index" {}
-
 variable "number_of_k8s_masters" {}
 
 variable "master_root_volume_size_in_gb" {}
