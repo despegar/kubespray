@@ -152,34 +152,37 @@
     - cloud-provider
     - facts
 
-- name: Ensure minimum calico version
-  assert:
-    that: calico_version is version('v3.0.0', '>=')
-    msg: "calico_version is too low. Minimum version v3.0.0"
-  run_once: yes
-  when:
-    - kube_network_plugin == 'calico'
+      # despegar fix
+      # evitamos cuelgues si esta roto etcd y se esta recuperando con ansible
+      #
+      #- name: Ensure minimum calico version
+      #  assert:
+      #    that: calico_version is version('v3.0.0', '>=')
+      #    msg: "calico_version is too low. Minimum version v3.0.0"
+      #  run_once: yes
+      #  when:
+      #    - kube_network_plugin == 'calico'
 
-- name: "Get current version of calico cluster version"
-  shell: "{{ bin_dir }}/calicoctl.sh version  | grep 'Cluster Version:' | awk '{ print $3}'"
-  register: calico_version_on_server
-  run_once: yes
-  changed_when: false
-  failed_when: false
-  when:
-    - kube_network_plugin == 'calico'
+      #- name: "Get current version of calico cluster version"
+      #  shell: "{{ bin_dir }}/calicoctl.sh version  | grep 'Cluster Version:' | awk '{ print $3}'"
+      #  register: calico_version_on_server
+      #  run_once: yes
+      #  changed_when: false
+      #  failed_when: false
+      #  when:
+      #    - kube_network_plugin == 'calico'
 
-- name: "Check that calico version is enough for upgrade"
-  assert:
-    that:
-      - calico_version_on_server.stdout is version('v2.6.5', '>=')
-    msg: "Your version of calico is not fresh enough for upgrade. Minimum version v2.6.5"
-  when:
-    - kube_network_plugin == 'calico'
-    - 'calico_version_on_server.stdout is defined'
-    - calico_version_on_server.stdout
-    - inventory_hostname == groups['kube-master'][0]
-  run_once: yes
+      #- name: "Check that calico version is enough for upgrade"
+      #  assert:
+      #    that:
+      #      - calico_version_on_server.stdout is version('v2.6.5', '>=')
+      #    msg: "Your version of calico is not fresh enough for upgrade. Minimum version v2.6.5"
+      #  when:
+      #    - kube_network_plugin == 'calico'
+      #    - 'calico_version_on_server.stdout is defined'
+      #    - calico_version_on_server.stdout
+      #    - inventory_hostname == groups['kube-master'][0]
+      #  run_once: yes
 
 - name: "Check that cluster_id is set if calico_rr enabled"
   assert:
