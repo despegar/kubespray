@@ -325,6 +325,7 @@
     - inventory_hostname in groups['k8s-cluster']
     - local_as is defined
     # despegar_fix for calico rr AS per rack - groups['calico-rr'] | default([]) | length == 0
+  tags: calico-bgp
 
 - name: Calico | Configure peering with router(s) at node scope
   shell: >
@@ -346,7 +347,9 @@
   when:
     - peer_with_router|default(false)
     - inventory_hostname in groups['k8s-cluster']
+  tags: calico-bgp
 
 # despegar fix
 - name: Calico | BGP peering ToR
   include_tasks: bgp_peering_tor.yml
+  tags: calico-bgp
