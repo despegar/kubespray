@@ -23,17 +23,7 @@
     - nvidia_accelerator_enabled|bool
     - inventory_hostname in nvidia_gpu_nodes
 
-# despegar fix
-- name: Node label for OpenStack flavor
-  set_fact:
-    role_node_labels: "{{ role_node_labels + [ 'despegar.com/flavor=%s'|format(flavor.name) ] }}"
-
-# despegar fix
-- name: Node label for OpenStack flavor with LVM
-  set_fact:
-    role_node_labels: "{{ role_node_labels + [ 'despegar.com/lvm=true' ] }}"
-  when:
-    - '".db." in flavor.name or ".eph." in flavor.name'
+- include: despegar.yml
 
 - name: Set inventory node label to empty list
   set_fact:
