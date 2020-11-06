@@ -30,6 +30,10 @@
 
 - include: cluster.yml
 
+# despegar fix
+# https://github.com/kubernetes-sigs/kubespray/issues/4078
+# https://github.com/kubernetes-sigs/kubespray/issues/6542  (issue 2)
+# https://github.com/kubernetes-sigs/kubespray/issues/6004
 - hosts: "{{ groups['kube-master'] }}"
   roles:
     - { role: kubespray-defaults}
