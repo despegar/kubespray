@@ -331,6 +331,9 @@ def openstack_host(resource, module_name):
 
     if 'all_metadata.TOR_BKP' in raw_attrs:
         attrs['local_tor_bkp'] = raw_attrs['all_metadata.TOR_BKP']
+
+    if 'all_metadata.HOST' in raw_attrs:
+        attrs['local_host'] = raw_attrs['all_metadata.HOST']
     ###########################################
 
     ###########################################
