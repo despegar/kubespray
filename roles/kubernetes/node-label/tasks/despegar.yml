@@ -8,3 +8,7 @@
     role_node_labels: "{{ role_node_labels + [ 'despegar.com/lvm=true' ] }}"
   when:
     - '".db." in flavor.name or ".eph." in flavor.name'
+
+- name: Node label for Rack / Autonomous System
+  set_fact:
+    role_node_labels: "{{ role_node_labels + [ 'failure-domain.beta.kubernetes.io/zone=' + local_as ] }}"
