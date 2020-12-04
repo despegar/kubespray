@@ -13,6 +13,6 @@
   set_fact:
     role_node_labels: "{{ role_node_labels + [ 'failure-domain.beta.kubernetes.io/zone=' + local_as ] }}"
 
-- name: Node label for OpenStack Instance
+- name: Node label for OpenStack Host / Hypervisor
   set_fact:
-    role_node_labels: "{{ role_node_labels + [ 'despegar.com/instance=' + local_host ] }}"
+    role_node_labels: "{{ role_node_labels + [ 'failure-domain.despegar.com/host=' + local_host ] }}"
