@@ -18,6 +18,7 @@ module "master_node1" {
   supplementary_master_groups                  = "${var.supplementary_master_groups}"
   kube_service_addresses                       = "${var.kube_service_addresses}"
   kube_pods_subnet                             = "${var.kube_pods_subnet}"
+  dns_zone                                     = "${var.dns_zone}"
   cluster_domain                               = "${var.cluster_domain}"
 }
 
@@ -41,6 +42,7 @@ module "master_node2" {
   supplementary_master_groups                  = "${var.supplementary_master_groups}"
   kube_service_addresses                       = "${var.kube_service_addresses}"
   kube_pods_subnet                             = "${var.kube_pods_subnet}"
+  dns_zone                                     = "${var.dns_zone}"
   cluster_domain                               = "${var.cluster_domain}"
 }
 
@@ -64,6 +66,7 @@ module "master_node3" {
   supplementary_master_groups                  = "${var.supplementary_master_groups}"
   kube_service_addresses                       = "${var.kube_service_addresses}"
   kube_pods_subnet                             = "${var.kube_pods_subnet}"
+  dns_zone                                     = "${var.dns_zone}"
   cluster_domain                               = "${var.cluster_domain}"
 }
 
@@ -87,6 +90,7 @@ module "master_node4" {
   supplementary_master_groups                  = "${var.supplementary_master_groups}"
   kube_service_addresses                       = "${var.kube_service_addresses}"
   kube_pods_subnet                             = "${var.kube_pods_subnet}"
+  dns_zone                                     = "${var.dns_zone}"
   cluster_domain                               = "${var.cluster_domain}"
 }
 
@@ -110,6 +114,7 @@ module "master_node5" {
   supplementary_master_groups                  = "${var.supplementary_master_groups}"
   kube_service_addresses                       = "${var.kube_service_addresses}"
   kube_pods_subnet                             = "${var.kube_pods_subnet}"
+  dns_zone                                     = "${var.dns_zone}"
   cluster_domain                               = "${var.cluster_domain}"
 }
 
@@ -133,6 +138,7 @@ module "master_node6" {
   supplementary_master_groups                  = "${var.supplementary_master_groups}"
   kube_service_addresses                       = "${var.kube_service_addresses}"
   kube_pods_subnet                             = "${var.kube_pods_subnet}"
+  dns_zone                                     = "${var.dns_zone}"
   cluster_domain                               = "${var.cluster_domain}"
 }
 
@@ -156,6 +162,7 @@ module "master_node7" {
   supplementary_master_groups                  = "${var.supplementary_master_groups}"
   kube_service_addresses                       = "${var.kube_service_addresses}"
   kube_pods_subnet                             = "${var.kube_pods_subnet}"
+  dns_zone                                     = "${var.dns_zone}"
   cluster_domain                               = "${var.cluster_domain}"
 }
 
@@ -179,5 +186,6 @@ module "master_node8" {
   supplementary_master_groups                  = "${var.supplementary_master_groups}"
   kube_service_addresses                       = "${var.kube_service_addresses}"
   kube_pods_subnet                             = "${var.kube_pods_subnet}"
+  dns_zone                                     = "${var.dns_zone}"
   cluster_domain                               = "${var.cluster_domain}"
 }

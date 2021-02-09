@@ -134,4 +134,6 @@ variable "kube_service_addresses" {}
 
 variable "kube_pods_subnet" {}
 
+variable "dns_zone" {}
+
 variable "cluster_domain" {}

@@ -248,6 +248,10 @@ variable "kube_pods_subnet" {
   default = ""
 }
 
+variable "dns_zone" {
+  default = ""
+}
+
 variable "cluster_domain" {
   default = ""
 }
