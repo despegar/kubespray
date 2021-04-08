@@ -1,15 +1,4 @@
 ---
-- name: kubeadm | Check if old apiserver cert exists on host
-  stat:
-    path: "{{ kube_cert_dir }}/apiserver.pem"
-  register: old_apiserver_cert
-  delegate_to: "{{ groups['kube-master'] | first }}"
-  run_once: true
-
-- name: kubeadm | Migrate old certs if necessary
-  import_tasks: kubeadm-migrate-certs.yml
-  when: old_apiserver_cert.stat.exists
-
 - name: Install OIDC certificate
   copy:
     content: "{{ kube_oidc_ca_cert | b64decode }}"
@@ -21,37 +10,18 @@
     - kube_oidc_auth
     - kube_oidc_ca_cert is defined
 
-- name: kubeadm | Check serviceaccount key
-  stat:
-    path: "{{ kube_cert_dir }}/sa.key"
-  register: sa_key_before
-  run_once: true
-
 - name: kubeadm | Check if kubeadm has already run
   stat:
     path: "/var/lib/kubelet/config.yaml"
+    get_attributes: no
+    get_checksum: no
+    get_mime: no
   register: kubeadm_already_run
 
-- name: kubeadm | Delete old admin.conf
-  file:
-    path: "{{ kube_config_dir }}/admin.conf"
-    state: absent
+- name: kubeadm | Backup kubeadm certs / kubeconfig
+  import_tasks: kubeadm-backup.yml
   when:
-    - not kubeadm_already_run.stat.exists
-
-- name: kubeadm | Delete old static pods
-  file:
-    path: "{{ kube_config_dir }}/manifests/{{ item }}.manifest"
-    state: absent
-  with_items: ["kube-apiserver", "kube-controller-manager", "kube-scheduler", "kube-proxy"]
-  when:
-    - old_apiserver_cert.stat.exists
-
-- name: kubeadm | Forcefully delete old static pods
-  shell: "docker ps -f name=k8s_{{ item }} -q | xargs --no-run-if-empty docker rm -f"
-  with_items: ["kube-apiserver", "kube-controller-manager", "kube-scheduler"]
-  when:
-    - old_apiserver_cert.stat.exists
+    - kubeadm_already_run.stat.exists
 
 - name: kubeadm | aggregate all SANs
   set_fact:
@@ -80,13 +50,19 @@
   file:
     path: "{{ audit_policy_file | dirname }}"
     state: directory
-  when: kubernetes_audit|default(false)
+  when: kubernetes_audit|default(false) or kubernetes_audit_webhook|default(false)
 
 - name: Write api audit policy yaml
   template:
     src: apiserver-audit-policy.yaml.j2
     dest: "{{ audit_policy_file }}"
-  when: kubernetes_audit|default(false)
+  when: kubernetes_audit|default(false) or kubernetes_audit_webhook|default(false)
+
+- name: Write api audit webhook config yaml
+  template:
+    src: apiserver-audit-webhook-config.yaml.j2
+    dest: "{{ audit_webhook_config_file }}"
+  when: kubernetes_audit_webhook|default(false)
 
 # Nginx LB(default), If kubeadm_config_api_fqdn is defined, use other LB by kubeadm controlPlaneEndpoint.
 - name: set kubeadm_config_api_fqdn define
@@ -94,17 +70,18 @@
     kubeadm_config_api_fqdn: "{{ apiserver_loadbalancer_domain_name|default('lb-apiserver.kubernetes.local') }}"
   when: loadbalancer_apiserver is defined
 
-- name: kubeadm | set kubeadm version
-  import_tasks: kubeadm-version.yml
+- name: Set kubeadm api version to v1beta2
+  set_fact:
+    kubeadmConfig_api_version: v1beta2
 
-- name: kubeadm | Certificate management with kubeadm
-  import_tasks: kubeadm-certificate.yml
-  when:
-    - not upgrade_cluster_setup
-    - kubeadm_already_run.stat.exists
+- name: kubeadm | Create kubeadm config
+  template:
+    src: "kubeadm-config.{{ kubeadmConfig_api_version }}.yaml.j2"
+    dest: "{{ kube_config_dir }}/kubeadm-config.yaml"
+    mode: 0640
 
 - name: kubeadm | Check if apiserver.crt contains all needed SANs
-  command: openssl x509 -noout -in "{{ kube_cert_dir }}/apiserver.crt" -checkip "{{ item }}"
+  command: openssl x509 -noout -in "{{ kube_cert_dir }}/apiserver.crt" -check{{ item|ipaddr|ternary('ip','host') }} "{{ item }}"
   with_items: "{{ apiserver_sans }}"
   register: apiserver_sans_check
   changed_when: "'does match certificate' not in apiserver_sans_check.stdout"
@@ -140,7 +117,7 @@
     {{ bin_dir }}/kubeadm init
     --config={{ kube_config_dir }}/kubeadm-config.yaml
     --ignore-preflight-errors=all
-    --skip-phases=addon/coredns
+    --skip-phases={{ kubeadm_init_phases_skip | join(',') }}
     --upload-certs
   register: kubeadm_init
   # Retry is because upload config sometimes fails
@@ -164,6 +141,7 @@
   shell: >-
     {{ bin_dir }}/kubeadm --kubeconfig /etc/kubernetes/admin.conf token delete {{ kubeadm_token }} || :;
     {{ bin_dir }}/kubeadm --kubeconfig /etc/kubernetes/admin.conf token create {{ kubeadm_token }}
+  changed_when: false
   when:
     - inventory_hostname == groups['kube-master']|first
     - kubeadm_token is defined
@@ -173,6 +151,7 @@
 
 - name: Create kubeadm token for joining nodes with 24h expiration (default)
   command: "{{ bin_dir }}/kubeadm --kubeconfig /etc/kubernetes/admin.conf token create"
+  changed_when: false
   register: temp_token
   retries: 5
   delay: 5
@@ -189,35 +168,14 @@
   tags:
     - kubeadm_token
 
-- name: kubeadm | Initialize other masters (experimental control plane)
-  include_tasks: kubeadm-secondary-experimental.yml
-  when: kubeadm_control_plane
-
-- name: kubeadm | Initialize other masters (legacy not control plane)
-  include_tasks: kubeadm-secondary-legacy.yml
-  when: not kubeadm_control_plane
+- name: kubeadm | Join other masters
+  include_tasks: kubeadm-secondary.yml
 
 - name: kubeadm | upgrade kubernetes cluster
   include_tasks: kubeadm-upgrade.yml
   when:
     - upgrade_cluster_setup
     - kubeadm_already_run.stat.exists
-
-- name: kubeadm | Check serviceaccount key again
-  stat:
-    path: "{{ kube_cert_dir }}/sa.key"
-  register: sa_key_after
-  run_once: true
-
-- name: kubeadm | Set secret_changed if service account key was updated
-  command: /bin/true
-  notify: Master | set secret_changed
-  when: sa_key_before.stat.checksum|default("") != sa_key_after.stat.checksum
-
-- name: kubeadm | cleanup old certs if necessary
-  import_tasks: kubeadm-cleanup-old-certs.yml
-  when:
-    - old_apiserver_cert.stat.exists
 
 # FIXME(mattymo): from docs: If you don't want to taint your control-plane node, set this field to an empty slice, i.e. `taints: {}` in the YAML file.
 - name: kubeadm | Remove taint for master with node role

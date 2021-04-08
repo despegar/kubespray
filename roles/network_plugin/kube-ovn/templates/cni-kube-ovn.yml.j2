@@ -3,12 +3,12 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: kube-ovn-controller
-  namespace: kube-ovn
+  namespace: kube-system
   annotations:
     kubernetes.io/description: |
       kube-ovn controller
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: kube-ovn-controller
@@ -46,6 +46,8 @@ spec:
           args:
           - --default-cidr={{ kube_pods_subnet }}
           env:
+            - name: ENABLE_SSL
+              value: "false"
             - name: POD_NAME
               valueFrom:
                 fieldRef:
@@ -58,29 +60,45 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
+          volumeMounts:
+            - mountPath: /var/run/tls
+              name: kube-ovn-tls
           readinessProbe:
             exec:
               command:
-                - sh
+                - bash
                 - /kube-ovn/kube-ovn-controller-healthcheck.sh
             periodSeconds: 3
+            timeoutSeconds: 45
           livenessProbe:
             exec:
               command:
-                - sh
+                - bash
                 - /kube-ovn/kube-ovn-controller-healthcheck.sh
-            initialDelaySeconds: 30
+            initialDelaySeconds: 300
             periodSeconds: 7
             failureThreshold: 5
+            timeoutSeconds: 45
+          resources:
+            requests:
+              cpu: {{ kube_ovn_controller_cpu_request }}
+              memory: {{ kube_ovn_controller_memory_request }}
+            limits:
+              cpu: {{ kube_ovn_controller_cpu_limit }}
+              memory: {{ kube_ovn_controller_memory_limit }}
       nodeSelector:
         kubernetes.io/os: "linux"
-
+      volumes:
+        - name: kube-ovn-tls
+          secret:
+            optional: true
+            secretName: kube-ovn-tls
 ---
 kind: DaemonSet
 apiVersion: apps/v1
 metadata:
   name: kube-ovn-cni
-  namespace: kube-ovn
+  namespace: kube-system
   annotations:
     kubernetes.io/description: |
       This daemon set launches the kube-ovn cni daemon.
@@ -88,8 +106,6 @@ spec:
   selector:
     matchLabels:
       app: kube-ovn-cni
-  updateStrategy:
-    type: OnDelete
   template:
     metadata:
       labels:
@@ -99,7 +115,6 @@ spec:
     spec:
       tolerations:
       - operator: Exists
-        effect: NoSchedule
       priorityClassName: system-cluster-critical
       serviceAccountName: ovn
       hostNetwork: true
@@ -113,8 +128,6 @@ spec:
           runAsUser: 0
           privileged: true
         volumeMounts:
-          - mountPath: /etc/cni/net.d
-            name: cni-conf
           - mountPath: /opt/cni/bin
             name: cni-bin
       containers:
@@ -122,16 +135,18 @@ spec:
         image: {{ kube_ovn_container_image_repo }}:{{ kube_ovn_container_image_tag }}
         imagePullPolicy: {{ k8s_image_pull_policy }}
         command:
-          - sh
+          - bash
           - /kube-ovn/start-cniserver.sh
         args:
           - --enable-mirror={{ traffic_mirror }}
           - --encap-checksum={{ encap_checksum }}
           - --service-cluster-ip-range={{ kube_service_addresses }}
         securityContext:
-          capabilities:
-            add: ["NET_ADMIN", "SYS_ADMIN", "SYS_PTRACE"]
+          runAsUser: 0
+          privileged: true
         env:
+          - name: ENABLE_SSL
+            value: "false"
           - name: POD_IP
             valueFrom:
               fieldRef:
@@ -141,6 +156,8 @@ spec:
               fieldRef:
                 fieldPath: spec.nodeName
         volumeMounts:
+          - mountPath: /etc/cni/net.d
+            name: cni-conf
           - mountPath: /run/openvswitch
             name: host-run-ovs
           - mountPath: /run/ovn
@@ -192,7 +209,7 @@ kind: DaemonSet
 apiVersion: apps/v1
 metadata:
   name: kube-ovn-pinger
-  namespace: kube-ovn
+  namespace: kube-system
   annotations:
     kubernetes.io/description: |
       This daemon set launches the openvswitch daemon.
@@ -210,19 +227,20 @@ spec:
         type: infra
     spec:
       tolerations:
-        - operator: Exists
-          effect: NoSchedule
+      - operator: Exists
       serviceAccountName: ovn
       hostPID: true
       containers:
         - name: pinger
           image: {{ kube_ovn_container_image_repo }}:{{ kube_ovn_container_image_tag }}
-          command: ["/kube-ovn/kube-ovn-pinger", "--external-address=114.114.114.114"]
           imagePullPolicy: {{ k8s_image_pull_policy }}
+          command: ["/kube-ovn/kube-ovn-pinger", "--external-address=114.114.114.114"]
           securityContext:
             runAsUser: 0
             privileged: false
           env:
+            - name: ENABLE_SSL
+              value: "false"
             - name: POD_IP
               valueFrom:
                 fieldRef:
@@ -258,6 +276,8 @@ spec:
               name: host-log-ovs
             - mountPath: /var/log/ovn
               name: host-log-ovn
+            - mountPath: /var/run/tls
+              name: kube-ovn-tls
           resources:
             requests:
               cpu: {{ kube_ovn_pinger_cpu_request }}
@@ -289,12 +309,16 @@ spec:
         - name: host-log-ovn
           hostPath:
             path: /var/log/ovn
+        - name: kube-ovn-tls
+          secret:
+            optional: true
+            secretName: kube-ovn-tls
 ---
 kind: Service
 apiVersion: v1
 metadata:
   name: kube-ovn-pinger
-  namespace: kube-ovn
+  namespace: kube-system
   labels:
     app: kube-ovn-pinger
 spec:
@@ -308,7 +332,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: kube-ovn-controller
-  namespace: kube-ovn
+  namespace: kube-system
   labels:
     app: kube-ovn-controller
 spec:
@@ -322,7 +346,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: kube-ovn-cni
-  namespace: kube-ovn
+  namespace: kube-system
   labels:
     app: kube-ovn-cni
 spec:

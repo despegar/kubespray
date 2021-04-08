@@ -3,6 +3,9 @@
 - name: Confirm selinux deployed
   stat:
     path: /etc/selinux/config
+    get_attributes: no
+    get_checksum: no
+    get_mime: no
   when:
     - ansible_os_family == "RedHat"
     - "'Amazon' not in ansible_distribution"
@@ -25,16 +28,20 @@
     dest: /etc/gai.conf
     line: "precedence ::ffff:0:0/96  100"
     state: present
+    create: yes
     backup: yes
   when:
     - disable_ipv6_dns
-    - not ansible_os_family in ["CoreOS", "Coreos", "Container Linux by CoreOS", "Flatcar", "Flatcar Container Linux by Kinvolk"]
+    - not ansible_os_family in ["Flatcar Container Linux by Kinvolk"]
   tags:
     - bootstrap-os
 
 - name: Stat sysctl file configuration
   stat:
     path: "{{ sysctl_file_path }}"
+    get_attributes: no
+    get_checksum: no
+    get_mime: no
   register: sysctl_file_stat
   tags:
     - bootstrap-os
@@ -57,6 +64,26 @@
   sysctl:
     sysctl_file: "{{ sysctl_file_path }}"
     name: net.ipv4.ip_forward
-    value: 1
+    value: "1"
     state: present
     reload: yes
+
+- name: Ensure kube-bench parameters are set
+  sysctl:
+    sysctl_file: /etc/sysctl.d/bridge-nf-call.conf
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+    reload: yes
+  with_items:
+    - { name: vm.overcommit_memory, value: 1 }
+    - { name: kernel.panic, value: 10 }
+    - { name: kernel.panic_on_oops, value: 1 }
+  when: kubelet_protect_kernel_defaults|bool
+
+- name: Check dummy module
+  modprobe:
+    name: dummy
+    state: present
+    params: 'numdummies=0'
+  when: enable_nodelocaldns

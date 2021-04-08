@@ -1,31 +1,24 @@
 ---
-- hosts: localhost
-  gather_facts: False
-  become: no
-  tasks:
-    - name: "Check ansible version >=2.7.8"
-      assert:
-        msg: "Ansible must be v2.7.8 or higher"
-        that:
-          - ansible_version.string is version("2.7.8", ">=")
-      tags:
-        - check
-  vars:
-    ansible_connection: local
+- name: Check ansible version
+  import_playbook: ansible_version.yml
 
 - hosts: bastion[0]
   gather_facts: False
+  environment: "{{ proxy_disable_env }}"
   roles:
     - { role: kubespray-defaults}
     - { role: bastion-ssh-config, tags: ["localhost", "bastion"]}
 
 - hosts: "{{ groups['etcd'] | first }}"
+  environment: "{{ proxy_disable_env }}"
   roles:
     - { role: kubespray-defaults}
     - { role: recover_control_plane/etcd }
 
 - hosts: "{{ groups['kube-master'] | first }}"
+  environment: "{{ proxy_disable_env }}"
   roles:
+    - { role: kubespray-defaults}
     - { role: recover_control_plane/master }
 
 - include: cluster.yml
@@ -35,6 +28,7 @@
 # https://github.com/kubernetes-sigs/kubespray/issues/6542  (issue 2)
 # https://github.com/kubernetes-sigs/kubespray/issues/6004
 - hosts: "{{ groups['kube-master'] }}"
+  environment: "{{ proxy_disable_env }}"
   roles:
     - { role: kubespray-defaults}
     - { role: recover_control_plane/post-recover, tags: "fix-apiserver" }
