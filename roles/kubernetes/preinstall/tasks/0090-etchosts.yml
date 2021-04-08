@@ -1,22 +1,18 @@
 ---
-- name: Hosts | create list from inventory
-  set_fact:
-    etc_hosts_inventory_block: |-
-      {% for item in (groups['k8s-cluster'] + groups['etcd']|default([]) + groups['calico-rr']|default([]))|unique -%}
+- name: Hosts | populate inventory into hosts file
+  blockinfile:
+    # despegar fix
+    # evitar que poner nombre del host propio en /etc/hosts cambie el "hostname -f" / fqdn
+    path: /etc/hosts
+    block: |-
+      {% for item in (groups['k8s-cluster'] + groups['etcd'] + groups['calico-rr']|default([]))|unique -%}
       {% if 'access_ip' in hostvars[item] or 'ip' in hostvars[item] or 'ansible_default_ipv4' in hostvars[item] -%}
+      {% if item != ansible_hostname -%}
       {{ hostvars[item]['access_ip'] | default(hostvars[item]['ip'] | default(hostvars[item]['ansible_default_ipv4']['address'])) }}
       {%- if ('ansible_hostname' in hostvars[item] and item != hostvars[item]['ansible_hostname']) %} {{ hostvars[item]['ansible_hostname'] }}.{{ dns_domain }} {{ hostvars[item]['ansible_hostname'] }}{% endif %} {{ item }}.{{ dns_domain }} {{ item }}
       {% endif %}
+      {% endif %}
       {% endfor %}
-  delegate_to: localhost
-  connection: local
-  delegate_facts: yes
-  run_once: yes
-
-- name: Hosts | populate inventory into hosts file
-  blockinfile:
-    path: /etc/hosts
-    block: "{{ hostvars.localhost.etc_hosts_inventory_block }}"
     state: present
     create: yes
     backup: yes

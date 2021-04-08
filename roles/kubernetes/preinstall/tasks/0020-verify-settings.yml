@@ -64,12 +64,14 @@
     - { name: openstack_lbaas_enabled, value: "{{ openstack_lbaas_enabled }}" }
   when: not ignore_assert_errors
 
-- name: Stop if even number of etcd hosts
-  assert:
-    that: groups.etcd|length is not divisibleby 2
-  when:
-    - not ignore_assert_errors
-    - inventory_hostname in groups.get('etcd',[])
+  # despegar fix
+  # para poder eliminar nodos caidos temporalmente
+  #- name: Stop if even number of etcd hosts
+  #  assert:
+  #    that: groups.etcd|length is not divisibleby 2
+  #  when:
+  #    - not ignore_assert_errors
+  #  - inventory_hostname in groups.get('etcd',[])
 
 - name: Stop if memory is too small for masters
   assert:
@@ -160,38 +162,41 @@
     - cloud-provider
     - facts
 
-- name: Ensure minimum calico version
-  assert:
-    that: calico_version is version(calico_min_version_required, '>=')
-    msg: "calico_version is too low. Minimum version {{ calico_min_version_required }}"
-  run_once: yes
-  when:
-    - kube_network_plugin == 'calico'
+# despegar fix
+# evitamos cuelgues si esta roto etcd y se esta recuperando con ansible
+#
+# - name: Ensure minimum calico version
+#   assert:
+#     that: calico_version is version(calico_min_version_required, '>=')
+#     msg: "calico_version is too low. Minimum version {{ calico_min_version_required }}"
+#   run_once: yes
+#   when:
+#     - kube_network_plugin == 'calico'
 
-- name: Get current calico cluster version
-  shell: "set -o pipefail && {{ bin_dir }}/calicoctl.sh version  | grep 'Cluster Version:' | awk '{ print $3}'"
-  args:
-    executable: /bin/bash
-  register: calico_version_on_server
-  async: 10
-  poll: 3
-  run_once: yes
-  changed_when: false
-  failed_when: false
-  when:
-    - kube_network_plugin == 'calico'
+# - name: Get current calico cluster version
+#   shell: "set -o pipefail && {{ bin_dir }}/calicoctl.sh version  | grep 'Cluster Version:' | awk '{ print $3}'"
+#   args:
+#     executable: /bin/bash
+#   register: calico_version_on_server
+#   async: 10
+#   poll: 3
+#   run_once: yes
+#   changed_when: false
+#   failed_when: false
+#   when:
+#     - kube_network_plugin == 'calico'
 
-- name: Check that current calico version is enough for upgrade
-  assert:
-    that:
-      - calico_version_on_server.stdout is version(calico_min_version_required, '>=')
-    msg: "Your version of calico is not fresh enough for upgrade. Minimum version {{ calico_min_version_required }}"
-  when:
-    - kube_network_plugin == 'calico'
-    - 'calico_version_on_server.stdout is defined'
-    - calico_version_on_server.stdout
-    - inventory_hostname == groups['kube-master'][0]
-  run_once: yes
+# - name: Check that current calico version is enough for upgrade
+#   assert:
+#     that:
+#       - calico_version_on_server.stdout is version(calico_min_version_required, '>=')
+#     msg: "Your version of calico is not fresh enough for upgrade. Minimum version {{ calico_min_version_required }}"
+#   when:
+#     - kube_network_plugin == 'calico'
+#     - 'calico_version_on_server.stdout is defined'
+#     - calico_version_on_server.stdout
+#     - inventory_hostname == groups['kube-master'][0]
+#   run_once: yes
 
 - name: "Check that cluster_id is set if calico_rr enabled"
   assert:

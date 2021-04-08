@@ -145,7 +145,8 @@
   set_fact:
     nodeToNodeMeshEnabled: "false"
   when:
-    - peer_with_router|default(false) or peer_with_calico_rr|default(false)
+    # despegar fix
+    # - peer_with_router|default(false) or peer_with_calico_rr|default(false)
     - inventory_hostname in groups['k8s-cluster']
   run_once: yes
 
@@ -310,7 +311,8 @@
       },
       "spec": {
         "bgp": {
-          "asNumber": "{{ local_as }}"
+          "asNumber": "{{ local_as }}",
+          "ipv4Address": "{{ ansible_default_ipv4.address }}" # despegar fix
         },
         "orchRefs":[{"nodeName":"{{ inventory_hostname }}","orchestrator":"k8s"}]
       }}
@@ -319,10 +321,11 @@
   until: output.rc == 0
   delay: "{{ retry_stagger | random + 3 }}"
   when:
-    - peer_with_router|default(false)
+    # despegar_fix for calico rr AS per rack - peer_with_router|default(false)
     - inventory_hostname in groups['k8s-cluster']
     - local_as is defined
-    - groups['calico-rr'] | default([]) | length == 0
+    # despegar_fix for calico rr AS per rack - groups['calico-rr'] | default([]) | length == 0
+  tags: calico-bgp
 
 - name: Calico | Configure peering with router(s) at node scope
   command:
@@ -349,3 +352,9 @@
   when:
     - peer_with_router|default(false)
     - inventory_hostname in groups['k8s-cluster']
+  tags: calico-bgp
+
+# despegar fix
+- name: Calico | BGP peering ToR
+  include_tasks: bgp_peering_tor.yml
+  tags: calico-bgp

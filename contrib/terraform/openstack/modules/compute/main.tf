@@ -328,7 +328,7 @@ resource "openstack_compute_instance_v2" "etcd" {
 }
 
 resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip" {
-  name              = "${var.cluster_name}-k8s-master-nf-${count.index + 1}"
+  name              = "${var.cluster_name}-master-${count.index + 1}"
   count             = var.number_of_k8s_masters_no_floating_ip
   availability_zone = element(var.az_list, count.index)
   image_name        = var.image
@@ -361,11 +361,59 @@ resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip" {
     }
   }
 
+  # despegar fix
+  user_data = data.template_file.user_data.rendered
+  lifecycle {
+    ignore_changes = [ user_data ]
+  }
+
+  # despegar fix
+  provisioner "local-exec" {
+    command = <<EOT
+      echo 'server 10.1.1.68
+        zone ${var.dns_zone}
+        update delete ${self.name}.${var.cluster_domain}. A
+        update add    ${self.name}.${var.cluster_domain}. 60 IN A ${self.access_ip_v4}
+        send' | /usr/bin/nsupdate
+    EOT
+  }
+  provisioner "local-exec" {
+    command = <<EOT
+      echo 'server 10.1.1.68
+        zone ${format("%s.%s.in-addr.arpa", element(split(".", self.access_ip_v4), 1), element(split(".", self.access_ip_v4), 0))}
+        update delete ${format("%s.%s.%s.%s.in-addr.arpa", element(split(".", self.access_ip_v4), 3), element(split(".", self.access_ip_v4), 2), element(split(".", self.access_ip_v4), 1), element(split(".", self.access_ip_v4), 0))} PTR
+        update add    ${format("%s.%s.%s.%s.in-addr.arpa", element(split(".", self.access_ip_v4), 3), element(split(".", self.access_ip_v4), 2), element(split(".", self.access_ip_v4), 1), element(split(".", self.access_ip_v4), 0))} 60 IN PTR ${self.name}.${var.cluster_domain}.
+        send' | /usr/bin/nsupdate -g
+    EOT
+  }
+
+  # despegar fix
+  provisioner "local-exec" {
+    when    = destroy
+    command = <<EOT
+      echo 'server 10.1.1.68
+        zone ${var.dns_zone}
+        update delete ${self.name}.${var.cluster_domain}. A
+        send' | /usr/bin/nsupdate
+    EOT
+  }
+  provisioner "local-exec" {
+    when    = destroy
+    command = <<EOT
+      echo 'server 10.1.1.68
+        zone ${format("%s.%s.in-addr.arpa", element(split(".", self.access_ip_v4), 1), element(split(".", self.access_ip_v4), 0))}
+        update delete ${format("%s.%s.%s.%s.in-addr.arpa", element(split(".", self.access_ip_v4), 3), element(split(".", self.access_ip_v4), 2), element(split(".", self.access_ip_v4), 1), element(split(".", self.access_ip_v4), 0))} PTR
+        send' | /usr/bin/nsupdate -g
+    EOT
+  }
+
   metadata = {
-    ssh_user         = var.ssh_user
-    kubespray_groups = "etcd,kube-master,${var.supplementary_master_groups},k8s-cluster,vault,no-floating"
-    depends_on       = var.network_id
-    use_access_ip    = var.use_access_ip
+    ssh_user               = var.ssh_user
+    kubespray_groups =     "etcd,kube-master,${var.supplementary_master_groups},k8s-cluster,vault,no-floating"
+    depends_on             = var.network_id
+    use_access_ip          = var.use_access_ip
+    kube_service_addresses = var.kube_service_addresses
+    kube_pods_subnet       = var.kube_pods_subnet
   }
 }
 

@@ -258,3 +258,28 @@ variable "extra_sec_groups" {
 variable "extra_sec_groups_name" {
   default = "custom"
 }
+variable "despegar_k8s_nodes" {
+  type    = "list"
+  default = []
+}
+
+variable "despegar_k8s_masters" {
+  type    = "list"
+  default = []
+}
+
+variable "kube_service_addresses" {
+  default = ""
+}
+
+variable "kube_pods_subnet" {
+  default = ""
+}
+
+variable "dns_zone" {
+  default = ""
+}
+
+variable "cluster_domain" {
+  default = ""
+}

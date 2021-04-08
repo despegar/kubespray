@@ -79,6 +79,12 @@ module "compute" {
   use_server_groups                            = var.use_server_groups
   extra_sec_groups                             = var.extra_sec_groups
   extra_sec_groups_name                        = var.extra_sec_groups_name
+  despegar_k8s_nodes                           = var.despegar_k8s_nodes
+  despegar_k8s_masters                         = var.despegar_k8s_masters
+  kube_service_addresses                       = var.kube_service_addresses
+  kube_pods_subnet                             = var.kube_pods_subnet
+  dns_zone                                     = var.dns_zone
+  cluster_domain                               = var.cluster_domain
 
   network_id = module.network.router_id
 }
