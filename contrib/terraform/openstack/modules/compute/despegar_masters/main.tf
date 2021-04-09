@@ -8,19 +8,19 @@ data "template_file" "user_data" {
 
 resource "openstack_compute_instance_v2" "k8s_despegar_master" {
   name              = "${var.cluster_name}-master-${var.master_index}"
-  count             = "${var.number_of_k8s_masters}"
-  availability_zone = "${element(var.az_list, count.index)}"
-  image_name        = "${var.image}"
-  flavor_id         = "${var.flavor_k8s_master}"
-  key_pair          = "${var.key_pair}"
+  count             = var.number_of_k8s_masters
+  availability_zone = element(var.az_list, count.index)
+  image_name        = var.image
+  flavor_id         = var.flavor_k8s_master
+  key_pair          = var.key_pair
 
 
   dynamic "block_device" {
     for_each = var.master_root_volume_size_in_gb > 0 ? [var.image] : []
     content {
-      uuid                  = "${data.openstack_images_image_v2.vm_image.id}"
+      uuid                  = data.openstack_images_image_v2.vm_image.id
       source_type           = "image"
-      volume_size           = "${var.master_root_volume_size_in_gb}"
+      volume_size           = var.master_root_volume_size_in_gb
       boot_index            = 0
       destination_type      = "volume"
       delete_on_termination = true
@@ -28,7 +28,7 @@ resource "openstack_compute_instance_v2" "k8s_despegar_master" {
   }
 
   network {
-    name = "${var.network_name}"
+    name = var.network_name
   }
 
   security_groups = var.secgroups
@@ -39,12 +39,12 @@ resource "openstack_compute_instance_v2" "k8s_despegar_master" {
   }
 
   metadata = {
-    ssh_user                 = "${var.ssh_user}"
+    ssh_user                 = var.ssh_user
     kubespray_groups         = "etcd,kube-master,${var.supplementary_master_groups},k8s-cluster,vault,no-floating"
-    depends_on               = "${var.network_id}"
-    use_access_ip            = "${var.use_access_ip}"
-    kube_service_addresses   = "${var.kube_service_addresses}"
-    kube_pods_subnet         = "${var.kube_pods_subnet}"
+    depends_on               = var.network_id
+    use_access_ip            = var.use_access_ip
+    kube_service_addresses   = var.kube_service_addresses
+    kube_pods_subnet         = var.kube_pods_subnet
   }
 
   provisioner "local-exec" {

@@ -259,12 +259,12 @@ variable "extra_sec_groups_name" {
   default = "custom"
 }
 variable "despegar_k8s_nodes" {
-  type    = "list"
+  type    = list(map(string))
   default = []
 }
 
 variable "despegar_k8s_masters" {
-  type    = "list"
+  type    = list(map(string))
   default = []
 }
 
