@@ -6,6 +6,8 @@
       shell:
         cmd: "git branch | grep '^\\*'|cut -d' ' -f2"
       register: kubespray_git_version
+  tags:
+    - check
 
 - hosts: k8s-cluster[0]
   tasks:
@@ -18,5 +20,5 @@
         msg: "Kubespray git submodule must be {{ kubespray_branch }}, current is {{ hostvars['localhost']['kubespray_git_version'].stdout }}"
         that:
           - hostvars['localhost']['kubespray_git_version'].stdout == kubespray_branch
-      tags:
-        - check
+  tags:
+    - check
