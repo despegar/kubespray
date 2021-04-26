@@ -1,0 +1,22 @@
+- hosts: localhost
+  gather_facts: false
+  become: no
+  tasks:
+    - name: Get kubespray version
+      shell:
+        cmd: "git branch | grep '^\\*'|cut -d' ' -f2"
+      register: kubespray_git_version
+
+- hosts: k8s-cluster[0]
+  tasks:
+    - name: Fail when kubespray_branch is not defined
+      debug:
+        msg: "kubespray_branch is required"
+      failed_when: kubespray_branch is not defined
+    - name: Check git version equals cluster version
+      assert:
+        msg: "Kubespray git submodule must be {{ kubespray_branch }}, current is {{ hostvars['localhost']['kubespray_git_version'].stdout }}"
+        that:
+          - hostvars['localhost']['kubespray_git_version'].stdout == kubespray_branch
+      tags:
+        - check

@@ -29,6 +29,9 @@
           NO_PROXY: "{{ no_proxy | default ('') }}"
       no_log: true
 
+- name: Check kubespray version
+  import_playbook: despegar_kubespray_version.yml
+
 - hosts: bastion[0]
   gather_facts: False
   roles:
