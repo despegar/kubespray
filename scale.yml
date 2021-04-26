@@ -2,6 +2,9 @@
 - name: Check ansible version
   import_playbook: ansible_version.yml
 
+- name: Check kubespray version
+  import_playbook: despegar_kubespray_version.yml
+
 - hosts: bastion[0]
   gather_facts: False
   environment: "{{ proxy_disable_env }}"
