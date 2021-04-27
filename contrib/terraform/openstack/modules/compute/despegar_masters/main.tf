@@ -50,7 +50,7 @@ resource "openstack_compute_instance_v2" "k8s_despegar_master" {
   provisioner "local-exec" {
     command = <<EOT
       echo 'server 10.1.1.68
-        zone ${var.cluster_domain}
+        zone ${var.dns_zone}
         update delete ${self.name}.${var.cluster_domain}. A
         update add    ${self.name}.${var.cluster_domain}. 60 IN A ${self.access_ip_v4}
         send' | /usr/bin/nsupdate
