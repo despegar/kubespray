@@ -7,7 +7,7 @@ data "template_file" "user_data" {
 }
 
 resource "openstack_compute_instance_v2" "k8s_despegar_master" {
-  name              = "${var.cluster_name}-master-${var.master_index}"
+  name              = "${var.cluster_node_prefix}${var.cluster_name}-master-${var.master_index}"
   count             = var.number_of_k8s_masters
   availability_zone = element(var.az_list, count.index)
   image_name        = var.image

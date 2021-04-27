@@ -31,7 +31,7 @@ data "template_file" "user_data" {
 }
 
 resource "openstack_compute_instance_v2" "k8s_despegar_node" {
-  name              = "${var.cluster_name}-node-${var.node_type}-${count.index + 1}"
+  name              = "${var.cluster_node_prefix}${var.cluster_name}-node-${var.node_type}-${count.index + 1}"
   count             = var.number_of_k8s_nodes
   availability_zone = element(var.az_list_node, count.index)
   image_name        = var.image

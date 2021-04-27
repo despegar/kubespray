@@ -2,6 +2,10 @@ variable "cluster_name" {
   default = "example"
 }
 
+variable "cluster_node_prefix" {
+  default = ""
+}
+
 variable "az_list" {
   description = "List of Availability Zones to use for masters in your OpenStack cluster"
   type        = list(string)

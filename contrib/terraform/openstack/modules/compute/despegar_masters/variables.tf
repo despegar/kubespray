@@ -2,6 +2,8 @@ variable "master_index" {}
 
 variable "cluster_name" {}
 
+variable "cluster_node_prefix" {}
+
 variable "dns_zone" {}
 
 variable "cluster_domain" {}

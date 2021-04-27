@@ -3,6 +3,7 @@ module "master_node1" {
 
   master_index                                 = var.despegar_k8s_masters[0]["index"]
   cluster_name                                 = var.cluster_name
+  cluster_node_prefix                          = var.cluster_node_prefix
   az_list                                      = var.az_list
   az_list_node                                 = var.az_list_node
   number_of_k8s_masters                        = var.despegar_k8s_masters[0]["q"]
@@ -27,6 +28,7 @@ module "master_node2" {
 
   master_index                                 = var.despegar_k8s_masters[1]["index"]
   cluster_name                                 = var.cluster_name
+  cluster_node_prefix                          = var.cluster_node_prefix
   az_list                                      = var.az_list
   az_list_node                                 = var.az_list_node
   number_of_k8s_masters                        = var.despegar_k8s_masters[1]["q"]
@@ -51,6 +53,7 @@ module "master_node3" {
 
   master_index                                 = var.despegar_k8s_masters[2]["index"]
   cluster_name                                 = var.cluster_name
+  cluster_node_prefix                          = var.cluster_node_prefix
   az_list                                      = var.az_list
   az_list_node                                 = var.az_list_node
   number_of_k8s_masters                        = var.despegar_k8s_masters[2]["q"]
@@ -75,6 +78,7 @@ module "master_node4" {
 
   master_index                                 = var.despegar_k8s_masters[3]["index"]
   cluster_name                                 = var.cluster_name
+  cluster_node_prefix                          = var.cluster_node_prefix
   az_list                                      = var.az_list
   az_list_node                                 = var.az_list_node
   number_of_k8s_masters                        = var.despegar_k8s_masters[3]["q"]
@@ -99,6 +103,7 @@ module "master_node5" {
 
   master_index                                 = var.despegar_k8s_masters[4]["index"]
   cluster_name                                 = var.cluster_name
+  cluster_node_prefix                          = var.cluster_node_prefix
   az_list                                      = var.az_list
   az_list_node                                 = var.az_list_node
   number_of_k8s_masters                        = var.despegar_k8s_masters[4]["q"]
@@ -123,6 +128,7 @@ module "master_node6" {
 
   master_index                                 = var.despegar_k8s_masters[5]["index"]
   cluster_name                                 = var.cluster_name
+  cluster_node_prefix                          = var.cluster_node_prefix
   az_list                                      = var.az_list
   az_list_node                                 = var.az_list_node
   number_of_k8s_masters                        = var.despegar_k8s_masters[5]["q"]
@@ -147,6 +153,7 @@ module "master_node7" {
 
   master_index                                 = var.despegar_k8s_masters[6]["index"]
   cluster_name                                 = var.cluster_name
+  cluster_node_prefix                          = var.cluster_node_prefix
   az_list                                      = var.az_list
   az_list_node                                 = var.az_list_node
   number_of_k8s_masters                        = var.despegar_k8s_masters[6]["q"]
@@ -171,6 +178,7 @@ module "master_node8" {
 
   master_index                                 = var.despegar_k8s_masters[7]["index"]
   cluster_name                                 = var.cluster_name
+  cluster_node_prefix                          = var.cluster_node_prefix
   az_list                                      = var.az_list
   az_list_node                                 = var.az_list_node
   number_of_k8s_masters                        = var.despegar_k8s_masters[7]["q"]

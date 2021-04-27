@@ -1,5 +1,7 @@
 variable "cluster_name" {}
 
+variable "cluster_node_prefix" {}
+
 variable "az_list" {
   type = list(string)
 }

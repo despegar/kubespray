@@ -3,6 +3,7 @@ module "nodes_type1" {
 
   node_type                                    = "t01"
   cluster_name                                 = var.cluster_name
+  cluster_node_prefix                          = var.cluster_node_prefix
   az_list                                      = var.az_list
   az_list_node                                 = var.az_list_node
   number_of_k8s_nodes                          = var.despegar_k8s_nodes[0]["q"]
@@ -27,6 +28,7 @@ module "nodes_type2" {
 
   node_type                                    = "t02"
   cluster_name                                 = var.cluster_name
+  cluster_node_prefix                          = var.cluster_node_prefix
   az_list                                      = var.az_list
   az_list_node                                 = var.az_list_node
   number_of_k8s_nodes                          = var.despegar_k8s_nodes[1]["q"]
@@ -51,6 +53,7 @@ module "nodes_type3" {
 
   node_type                                    = "t03"
   cluster_name                                 = var.cluster_name
+  cluster_node_prefix                          = var.cluster_node_prefix
   az_list                                      = var.az_list
   az_list_node                                 = var.az_list_node
   number_of_k8s_nodes                          = var.despegar_k8s_nodes[2]["q"]
@@ -75,6 +78,7 @@ module "nodes_type4" {
 
   node_type                                    = "t04"
   cluster_name                                 = var.cluster_name
+  cluster_node_prefix                          = var.cluster_node_prefix
   az_list                                      = var.az_list
   az_list_node                                 = var.az_list_node
   number_of_k8s_nodes                          = var.despegar_k8s_nodes[3]["q"]
@@ -99,6 +103,7 @@ module "nodes_type5" {
 
   node_type                                    = "t05"
   cluster_name                                 = var.cluster_name
+  cluster_node_prefix                          = var.cluster_node_prefix
   az_list                                      = var.az_list
   az_list_node                                 = var.az_list_node
   number_of_k8s_nodes                          = var.despegar_k8s_nodes[4]["q"]
@@ -123,6 +128,7 @@ module "nodes_type6" {
 
   node_type                                    = "t06"
   cluster_name                                 = var.cluster_name
+  cluster_node_prefix                          = var.cluster_node_prefix
   az_list                                      = var.az_list
   az_list_node                                 = var.az_list_node
   number_of_k8s_nodes                          = var.despegar_k8s_nodes[5]["q"]
@@ -147,6 +153,7 @@ module "nodes_type7" {
 
   node_type                                    = "t07"
   cluster_name                                 = var.cluster_name
+  cluster_node_prefix                          = var.cluster_node_prefix
   az_list                                      = var.az_list
   az_list_node                                 = var.az_list_node
   number_of_k8s_nodes                          = var.despegar_k8s_nodes[6]["q"]
@@ -171,6 +178,7 @@ module "nodes_type8" {
 
   node_type                                    = "t08"
   cluster_name                                 = var.cluster_name
+  cluster_node_prefix                          = var.cluster_node_prefix
   az_list                                      = var.az_list
   az_list_node                                 = var.az_list_node
   number_of_k8s_nodes                          = var.despegar_k8s_nodes[7]["q"]
@@ -195,6 +203,7 @@ module "nodes_type9" {
 
   node_type                                    = "t09"
   cluster_name                                 = var.cluster_name
+  cluster_node_prefix                          = var.cluster_node_prefix
   az_list                                      = var.az_list
   az_list_node                                 = var.az_list_node
   number_of_k8s_nodes                          = var.despegar_k8s_nodes[8]["q"]
@@ -219,6 +228,7 @@ module "nodes_type10" {
 
   node_type                                    = "t10"
   cluster_name                                 = var.cluster_name
+  cluster_node_prefix                          = var.cluster_node_prefix
   az_list                                      = var.az_list
   az_list_node                                 = var.az_list_node
   number_of_k8s_nodes                          = var.despegar_k8s_nodes[9]["q"]
