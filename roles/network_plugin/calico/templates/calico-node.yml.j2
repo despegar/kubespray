@@ -365,5 +365,5 @@ spec:
 {% endif %}
   updateStrategy:
     rollingUpdate:
-      maxUnavailable: {{ serial | default('20%') }}
+      maxUnavailable: {{ serial | default('1') }}
     type: RollingUpdate
